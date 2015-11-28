@@ -1,0 +1,20 @@
+﻿Build started 26.11.2015 21:10:42.
+     1>Project "c:\Users\User\documents\visual studio 2010\Projects\geometr_use\geometr_use\geometr_use.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\geometr_use.unsuccessfulbuild".
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\users\user\documents\visual studio 2010\Projects\geometr_use\Debug\geometr_use.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\geometr_use.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"c:\users\user\documents\visual studio 2010\Projects\geometr_use\Debug\geometr_use.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"c:\users\user\documents\visual studio 2010\Projects\geometr_use\Debug\geometr_use.lib" /MACHINE:X86 Debug\main.obj
+     1>main.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+         geometr_use.vcxproj -> c:\users\user\documents\visual studio 2010\Projects\geometr_use\Debug\geometr_use.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"c:\users\user\documents\visual studio 2010\Projects\geometr_use\Debug\geometr_use.exe;#1" /manifest Debug\geometr_use.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug\geometr_use.unsuccessfulbuild".
+         Touching "Debug\geometr_use.lastbuildstate".
+     1>Done Building Project "c:\Users\User\documents\visual studio 2010\Projects\geometr_use\geometr_use\geometr_use.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.37
