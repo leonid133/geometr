@@ -14,13 +14,13 @@ int main()
   void (*DllFunc) (char *str);
 
   // Загружаем MyFirstDLL
-  h=LoadLibrary(L"MyFirstDLL.dll");
+  h=LoadLibrary(L"Geometr.dll");
 
   // Контроль ошибок – если загрузка прошла успешно,
   // функция вернет что-то отличное от нуля
   if (!h)
   {
-    printf("Ошибка - не могу найти MyFirstDLL.dll\n");
+    printf("Ошибка - не могу найти Geometr.dll\n");
     return 1;
   }
 
