@@ -12,20 +12,20 @@ namespace Scene
         
     public:
         MyScene(){};
-        int LoadMyShape( const std::string &namedll )
+        int LoadMyShape( LPCWSTR namedll )
         {
             HINSTANCE h;
-            h=LoadLibrary( namedll );
-            if (!h)
+            h = LoadLibrary( namedll );
+            if ( !h )
             {
-                printf("Ошибка - не могу найти Geometr.dll\n");
+                printf( "Ошибка - не могу найти Geometr.dll\n" );
                 return 1;
             }
             Geometr::MyShape *pVar;
-            (FARPROC &)pVar = GetProcAddress(hLib, "fig");
+            (FARPROC &)pVar = GetProcAddress( h, "fig" );
             //*pVar = 123;
 
-            FreeLibrary(h);
+            FreeLibrary( h );
             return 0;
         };
         ~MyScene(){};
