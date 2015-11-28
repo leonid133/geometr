@@ -1,4 +1,5 @@
 // Geometr.h
+#include "stdafx.h"
 
 #ifdef GEOMETR_EXPORTS
 #define GEOMETR_API __declspec(dllexport) 
@@ -30,12 +31,10 @@ namespace MathFuncs
 
 namespace Geometr
 {
-    class MyShape
+    class GEOMETR_API MyShape
     {
     private:
-        
 
-        
     protected:
         
         struct CoordXY
@@ -68,14 +67,15 @@ namespace Geometr
         
         std::string m_shape_name;
 
-        MyShape()
+        MyShape( )
         {
-            m_shape_name = "uniq_name";
+            m_shape_name = "_name_undefined_";
         };
 
-    public:        
-        
-        
+    public:
+
+        virtual void SetName( const std::string &name  ){m_shape_name=name;};
+        virtual void V_count() = 0;
 
         virtual std::string ToString()
         {
@@ -92,21 +92,37 @@ namespace Geometr
                 coord_str += pV[it_v].Y;
                 coord_str +=";/n";
             }
+            return coord_str;
         };
 
-        virtual void SetCoord() = 0;
+        virtual bool SetCoord( std::vector<std::pair<int, int> > coord_x_y  )
+        {
+            if( coord_x_y.size() != m_count_vertex)
+                return false;
 
-        virtual ~MyShape();
+            std::sort( coord_x_y.begin(), coord_x_y.end() );
+            int idx_coord = 0;
+            for( auto it = coord_x_y.begin(); it < coord_x_y.end(); ++it )
+            {
+                pV[idx_coord].X = it->first;
+                pV[idx_coord++].Y = it->second;
+            }
+
+            return true;
+        };
+
+        virtual ~MyShape(){};
     };
 
-    class Triangle: public MyShape
+    class GEOMETR_API Triangle: public MyShape
     {
     private:
+        virtual void V_count(){m_count_vertex = 3;};
 
     public:
         Triangle()
         {
-            m_count_vertex = 3;
+            V_count();
             pV = new CoordXY[m_count_vertex];
         };
         ~Triangle()
@@ -115,14 +131,14 @@ namespace Geometr
         };
     };
 
-    class Rectangle: public MyShape
+    class GEOMETR_API Rectangle: public MyShape
     {
     private:
-
+         virtual void V_count(){m_count_vertex = 4;};
     public:
         Rectangle()
         {
-            m_count_vertex = 4;
+            V_count();
             pV = new CoordXY[m_count_vertex];
         };
         ~Rectangle()
@@ -131,14 +147,14 @@ namespace Geometr
         };
     };
 
-    class Square: public MyShape
+    class GEOMETR_API Square: public MyShape
     {
     private:
-        
+        virtual void V_count(){m_count_vertex = 4;};
     public:
         Square()
         {
-            m_count_vertex = 4;
+            V_count();
             pV = new CoordXY[m_count_vertex];
         };
         ~Square()
@@ -147,10 +163,10 @@ namespace Geometr
         };
     };
         
-    class Polygon: public MyShape
+    class GEOMETR_API Polygon: public MyShape
     {
     private:
-        
+        virtual void V_count(){};
         
     public:
         Polygon(int n)
@@ -164,5 +180,4 @@ namespace Geometr
             delete[] pV;
         };
     };
-
 }

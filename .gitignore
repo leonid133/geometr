@@ -16,3 +16,6 @@
 Release
 Debug
 ipch
+*.suo
+*.sdf
+*.opensdf
