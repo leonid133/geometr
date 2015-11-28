@@ -1,4 +1,6 @@
 // Geometr.h
+#pragma once
+
 #include "stdafx.h"
 
 #ifdef GEOMETR_EXPORTS
@@ -28,6 +30,7 @@ namespace MathFuncs
         static GEOMETR_API double Divide(double a, double b); 
     };
 }
+
 
 namespace Geometr
 {

@@ -8,12 +8,14 @@ namespace Render {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-
+    using namespace Scene;
 	/// <summary>
 	/// Summary for Form1
 	/// </summary>
+	
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
+   
 	public:
 		Form1(void)
 		{
@@ -44,6 +46,8 @@ namespace Render {
 		/// Required designer variable.
 		/// </summary>
 		System::ComponentModel::Container ^components;
+    
+        
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -101,10 +105,10 @@ namespace Render {
         }
 #pragma endregion
     private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-                Scene::MyScene scene;
-                LPCWSTR name_dll;
-                name_dll = ( L"Fig_Triangle.dll" );
-                scene.LoadMyShape( name_dll );
+                std::shared_ptr<MyScene> scene = std::make_shared<MyScene>();
+                //LPCWSTR name_dll;
+                //name_dll = ( L"Fig_Triangle.dll" );
+                //scene->LoadMyShape( name_dll );
              }
     };
 }

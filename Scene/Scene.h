@@ -1,3 +1,7 @@
+#pragma once
+
+#include "stdafx.h"
+
 #ifdef SCENE_EXPORTS
 #define SCENE_API __declspec(dllexport)
 #else
@@ -11,7 +15,7 @@ namespace Scene
     private:
         
     public:
-        MyScene(){};
+        //MyScene(){};
         int LoadMyShape( LPCWSTR namedll )
         {
             HINSTANCE h;
@@ -28,6 +32,6 @@ namespace Scene
             FreeLibrary( h );
             return 0;
         };
-        ~MyScene(){};
+        //~MyScene(){};
     };
 }

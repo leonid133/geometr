@@ -1,3 +1,5 @@
+#pragma once
+
 #include "stdafx.h"
 
 #ifdef FIG_TRIANGLE_EXPORTS
