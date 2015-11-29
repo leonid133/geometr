@@ -1,0 +1,4 @@
+LIBRARY "MYDLL"
+
+EXPORTS
+ Add

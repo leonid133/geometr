@@ -16,7 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
-    <None Include="Fig_Triangle.def">
+    <None Include="MatchFuncsDll.def">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
@@ -27,7 +27,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fig.h">
+    <ClInclude Include="MathFuncsDll.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,13 +35,13 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Fig_Triangle.cpp">
+    <ClCompile Include="MyDLL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fig.cpp">
+    <ClCompile Include="MathFuncsDll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

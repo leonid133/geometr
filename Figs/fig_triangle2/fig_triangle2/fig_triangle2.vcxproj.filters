@@ -16,7 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
-    <None Include="Fig_Triangle.def">
+    <None Include="fig.def">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Fig_Triangle.cpp">
+    <ClCompile Include="fig_triangle2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">

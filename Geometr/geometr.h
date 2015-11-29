@@ -6,7 +6,7 @@
 #ifdef GEOMETR_EXPORTS
 #define GEOMETR_API __declspec(dllexport) 
 #else
-#define GEOMETR_API __declspec(dllimport) 
+#define GEOMETR_API //__declspec(dllimport) 
 #endif
 
 
@@ -70,16 +70,51 @@ namespace Geometr
         
         std::string m_shape_name;
 
+    public:
+
         MyShape( )
         {
             m_shape_name = "_name_undefined_";
         };
-
-    public:
+        MyShape( const MyShape& right )
+        {
+            m_shape_name = right.m_shape_name;
+            m_shape_line = right.m_shape_line;
+            m_count_vertex = right.m_count_vertex;
+            m_color_lines = right.m_color_lines;
+            m_color_brush = right.m_color_brush;
+           
+            pV = new CoordXY[m_count_vertex]; 
+            for( int idx = 0; idx < m_count_vertex; ++idx )
+            {
+                pV[idx].X = right.pV[idx].X;
+                pV[idx].Y = right.pV[idx].Y;
+            }
+        }
+        MyShape& operator=(const MyShape& right) 
+        {
+            if (this == &right) {
+                return *this;
+            }
+            m_shape_name = right.m_shape_name;
+            m_shape_line = right.m_shape_line;
+            m_count_vertex = right.m_count_vertex;
+            m_color_lines = right.m_color_lines;
+            m_color_brush = right.m_color_brush;
+            if( pV )
+                delete[] pV;
+            pV = new CoordXY[m_count_vertex]; 
+            for( int idx = 0; idx < m_count_vertex; ++idx )
+            {
+                pV[idx].X = right.pV[idx].X;
+                pV[idx].Y = right.pV[idx].Y;
+            }
+            return *this;
+        }
 
         virtual void SetName( const std::string &name  ){m_shape_name=name;};
-        virtual void V_count() = 0;
-
+        virtual void V_count(){};
+        
         virtual std::string ToString()
         {
             std::string coord_str;
@@ -127,6 +162,11 @@ namespace Geometr
         {
             V_count();
             pV = new CoordXY[m_count_vertex];
+            for( int idx = 0; idx < m_count_vertex; ++idx )
+            {
+                pV[idx].X = 0;
+                pV[idx].Y = 0;
+            }
         };
         ~Triangle()
         {
@@ -143,6 +183,11 @@ namespace Geometr
         {
             V_count();
             pV = new CoordXY[m_count_vertex];
+            for( int idx = 0; idx < m_count_vertex; ++idx )
+            {
+                pV[idx].X = 0;
+                pV[idx].Y = 0;
+            }
         };
         ~Rectangle()
         {
@@ -159,6 +204,11 @@ namespace Geometr
         {
             V_count();
             pV = new CoordXY[m_count_vertex];
+            for( int idx = 0; idx < m_count_vertex; ++idx )
+            {
+                pV[idx].X = 0;
+                pV[idx].Y = 0;
+            }
         };
         ~Square()
         {
@@ -172,10 +222,16 @@ namespace Geometr
         virtual void V_count(){};
         
     public:
+        Polygon(){};
         Polygon(int n)
         {
             m_count_vertex = n;
             pV = new CoordXY[m_count_vertex];
+            for( int idx = 0; idx < m_count_vertex; ++idx )
+            {
+                pV[idx].X = 0;
+                pV[idx].Y = 0;
+            }
         };
 
         ~Polygon()
