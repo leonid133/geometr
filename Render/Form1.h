@@ -105,10 +105,13 @@ namespace Render {
         }
 #pragma endregion
     private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-                std::shared_ptr<MyScene> scene = std::make_shared<MyScene>();
-                //LPCWSTR name_dll;
+                //std::shared_ptr<MyScene> scene = std::make_shared<MyScene>();
+                MyScene scene;
+                // LPCWSTR name_dll;
                 //name_dll = ( L"Fig_Triangle.dll" );
                 //scene->LoadMyShape( name_dll );
+                scene.LoadMyShape( );
+                //Scene::LoadMyShape();
              }
     };
 }

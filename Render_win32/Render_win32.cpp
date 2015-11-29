@@ -42,15 +42,13 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_RENDER_WIN32));
 
-    Scene::MyScene scene;
-    LPCWSTR name_dll;
-    name_dll = ( L"Fig_Triangle.dll" );
-    scene.LoadMyShape( name_dll );
 
 	// Main message loop:
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
-		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        
+
+        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
@@ -151,7 +149,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wmId)
 		{
 		case IDM_ABOUT:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+            {
+                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+                //Scene::MyScene scene;
+                //LPCWSTR name_dll;
+                //name_dll = ( L"Fig_Triangle.dll" );
+                //scene.LoadMyShape( name_dll );
+                //scene.LoadMyShape( );
+                Scene::LoadMyShape();
+            }
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
