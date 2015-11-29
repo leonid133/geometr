@@ -3,11 +3,7 @@
 #include <stdexcept>
 
 namespace Fig
-{/*
-    int Fig::Init()
-    {
-        return 1;
-    }*/
+{
     
 Geometr::Triangle Fig::Init()
 {

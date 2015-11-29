@@ -29,13 +29,16 @@ namespace Scene
         
     public:
         MyScene(){};
-
-        int LoadMyShape( )
+        //Geometr::MyShape * m_shapes;
+         std::vector< Geometr::MyShape > m_shapes;
+        
+        int LoadMyShape( LPCWSTR name_dll )
         {
             
             HINSTANCE h;
 
-            h = LoadLibrary( L"f:\\1\\geometr\\Figs\\fig_triangle2.dll" );
+            //h = LoadLibrary( L"f:\\1\\geometr\\Figs\\fig_triangle2.dll" );
+            h = LoadLibrary( name_dll );
             if ( !h )
             {
                 printf( "Ошибка - не могу найти Geometr.dll\n" );
@@ -77,6 +80,8 @@ namespace Scene
             *pb = figure();
             pb->ToString();
 
+            m_shapes.push_back( *pb );
+            
             delete pb;
             FreeLibrary( h );
             

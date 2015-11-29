@@ -107,11 +107,20 @@ namespace Render {
     private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
                 //std::shared_ptr<MyScene> scene = std::make_shared<MyScene>();
                 MyScene scene;
-                // LPCWSTR name_dll;
-                //name_dll = ( L"Fig_Triangle.dll" );
-                //scene->LoadMyShape( name_dll );
-                scene.LoadMyShape( );
-                //Scene::LoadMyShape();
+                LPCWSTR name_dll;
+                name_dll = ( L"f:\\1\\geometr\\Figs\\fig_triangle2.dll" );
+                scene.LoadMyShape( name_dll );
+                for( auto it = scene.m_shapes.begin(); it < scene.m_shapes.end(); ++it )
+                {
+                    for( int idx = 0; idx < it->m_count_vertex; ++idx )
+                    {
+                        pictureBox1->Canvas->Pen->clBlack;//цвет линии/точки (или контура, если речь идет о закрашеной фигуре)
+                        pictureBox1->Canvas->MoveTo(it->pV[idx].X,it->pV[idx].Y);//переместиться сюда (что бы, например, рисовать линию из этой точки).
+                        pictureBox1->Canvas->LineTo(it->pV[idx].X,it->pV[idx].Y);//линия от текущей точки до указанный координат
+                        pictureBox1->Canvas->Pixel(it->pV[idx].X,it->pV[idx].Y);//точка в указанных координатах
+                    }
+                }
+                //scene.LoadMyShape( );
              }
     };
 }

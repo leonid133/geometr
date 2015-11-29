@@ -10,28 +10,6 @@
 #endif
 
 
-namespace MathFuncs
-{
-    // This class is exported from the MathFuncsDll.dll
-    class MyMathFuncs
-    {
-    public: 
-        // Returns a + b
-        static GEOMETR_API double Add(double a, double b); 
-
-        // Returns a - b
-        static GEOMETR_API double Subtract(double a, double b); 
-
-        // Returns a * b
-        static GEOMETR_API double Multiply(double a, double b); 
-
-        // Returns a / b
-        // Throws const std::invalid_argument& if b is 0
-        static GEOMETR_API double Divide(double a, double b); 
-    };
-}
-
-
 namespace Geometr
 {
     class GEOMETR_API MyShape
@@ -46,7 +24,7 @@ namespace Geometr
             int Y;
         };
 
-        int m_count_vertex;
+        
         CoordXY * pV;
 
         struct ColorRGB
@@ -148,6 +126,8 @@ namespace Geometr
 
             return true;
         };
+
+        int m_count_vertex;
 
         virtual ~MyShape(){};
     };
