@@ -26,12 +26,41 @@ namespace Scene
     class SCENE_API MyScene
     {
     private:
-        
+        struct ColorRGB
+        {
+            BYTE R;
+            BYTE G;
+            BYTE B;
+        };
+
     public:
-        MyScene(){};
-        //Geometr::MyShape * m_shapes;
-         std::vector< Geometr::MyShape > m_shapes;
+        std::vector< Geometr::MyShape > m_shapes;
+        int m_height;
+        int m_width;
+        ColorRGB m_scene[500][500];
         
+        MyScene()
+        {
+            m_height = 500;
+            m_width = 500;
+            for(int idx_y=0; idx_y<m_height; idx_y++)
+            {
+                for(int idx_x=0; idx_x<m_width; idx_x++)
+                {
+                    m_scene[idx_x][idx_y].R = 0;
+                    m_scene[idx_x][idx_y].G = 0;
+                    m_scene[idx_x][idx_y].B = 0;
+                }
+            }
+        };
+        MyScene(int height, int width)
+        {
+            m_height = height;
+            m_width = width;
+        };
+        //Geometr::MyShape * m_shapes;
+        
+
         int LoadMyShape( LPCWSTR name_dll )
         {
             
@@ -58,7 +87,7 @@ namespace Scene
             }
             
             Geometr::MyShape *pb;
-
+            
             std::string type_str = typeid( figure() ).name();
             if( type_str ==  "class Geometr::Triangle" )
             {
@@ -87,6 +116,30 @@ namespace Scene
             
             return 0;
         };
+        void CalcScene()
+        {
+            for(int idx_y=0; idx_y<500; idx_y++)
+            {
+                for(int idx_x=0; idx_x<500; idx_x++)
+                {
+                    for( auto it = m_shapes.begin(); it < m_shapes.end(); ++it )
+                    {
+                        if( it->IsDotPoligon(idx_x, idx_y) )
+                        {
+                            m_scene[idx_x][idx_y].R = (m_scene[idx_x][idx_y].R + it->m_color_brush.R)/2;
+                            m_scene[idx_x][idx_y].G = (m_scene[idx_x][idx_y].R + it->m_color_brush.G)/2;
+                            m_scene[idx_x][idx_y].B = (m_scene[idx_x][idx_y].R + it->m_color_brush.B)/2;
+                        }
+                        if( it->IsDotLine(idx_x, idx_y) )
+                        {
+                            m_scene[idx_x][idx_y].R = (m_scene[idx_x][idx_y].R + it->m_color_lines.R)/2;
+                            m_scene[idx_x][idx_y].G = (m_scene[idx_x][idx_y].R + it->m_color_lines.G)/2;
+                            m_scene[idx_x][idx_y].B = (m_scene[idx_x][idx_y].R + it->m_color_lines.B)/2;
+                        }
+                    }
+                }
+            }
+        }
         ~MyScene(){};
     };
 }

@@ -41,6 +41,7 @@ namespace Render {
     private: System::Windows::Forms::Button^  button1;
     private: System::Windows::Forms::ListBox^  listBox1;
 
+
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -66,7 +67,7 @@ namespace Render {
             // 
             this->pictureBox1->Location = System::Drawing::Point(160, 89);
             this->pictureBox1->Name = L"pictureBox1";
-            this->pictureBox1->Size = System::Drawing::Size(357, 294);
+            this->pictureBox1->Size = System::Drawing::Size(300, 300);
             this->pictureBox1->TabIndex = 0;
             this->pictureBox1->TabStop = false;
             // 
@@ -84,16 +85,16 @@ namespace Render {
             // 
             this->listBox1->FormattingEnabled = true;
             this->listBox1->ItemHeight = 16;
-            this->listBox1->Location = System::Drawing::Point(13, 74);
+            this->listBox1->Location = System::Drawing::Point(13, 89);
             this->listBox1->Name = L"listBox1";
-            this->listBox1->Size = System::Drawing::Size(120, 84);
+            this->listBox1->Size = System::Drawing::Size(120, 292);
             this->listBox1->TabIndex = 2;
             // 
             // Form1
             // 
             this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-            this->ClientSize = System::Drawing::Size(550, 414);
+            this->ClientSize = System::Drawing::Size(508, 414);
             this->Controls->Add(this->listBox1);
             this->Controls->Add(this->button1);
             this->Controls->Add(this->pictureBox1);
@@ -104,22 +105,57 @@ namespace Render {
 
         }
 #pragma endregion
+        bool isLineDot(int x, int y, int x1, int y1, int x2, int y2)
+        {
+            if(x<x1 || x>x2 || y<y1 || y>y2)
+                return false;
+            double line_ = ((double)y1 - (double)y2)*(double)x + ((double)x2 - (double)x1)*(double)y+ ((double)x1 * (double)y2 - (double)x2 * (double)y1);
+            if(line_ < 2 && line_>-2 )
+                return true;
+            return false;
+        };
+
     private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
                 //std::shared_ptr<MyScene> scene = std::make_shared<MyScene>();
                 MyScene scene;
                 LPCWSTR name_dll;
                 name_dll = ( L"f:\\1\\geometr\\Figs\\fig_triangle2.dll" );
                 scene.LoadMyShape( name_dll );
+                name_dll = ( L"f:\\1\\geometr\\Figs\\fig_triangle3.dll" );
+                scene.LoadMyShape( name_dll );
+                scene.CalcScene();                
+                pictureBox1->SizeMode = PictureBoxSizeMode::StretchImage;
+                Bitmap ^MyImage = gcnew Bitmap(500,500);
+                pictureBox1->Image = MyImage;
+                int x=0;
                 for( auto it = scene.m_shapes.begin(); it < scene.m_shapes.end(); ++it )
                 {
-                    for( int idx = 0; idx < it->m_count_vertex; ++idx )
-                    {
-                        pictureBox1->Canvas->Pen->clBlack;//цвет линии/точки (или контура, если речь идет о закрашеной фигуре)
-                        pictureBox1->Canvas->MoveTo(it->pV[idx].X,it->pV[idx].Y);//переместиться сюда (что бы, например, рисовать линию из этой точки).
-                        pictureBox1->Canvas->LineTo(it->pV[idx].X,it->pV[idx].Y);//линия от текущей точки до указанный координат
-                        pictureBox1->Canvas->Pixel(it->pV[idx].X,it->pV[idx].Y);//точка в указанных координатах
-                    }
+                    //String ^ Item = it->m_shape_name.c_str();
+                    //listBox1->Items->Add( it->m_shape_name.c_str() );
+                    
+                     listBox1->Items->Add( String::Format( "Item {0}", x++ ) );
+                    //listBox1->it add( it->m_shape_name );
                 }
+                                        
+                    for(int idx_y=0; idx_y<500; idx_y++)
+                    {
+                        for(int idx_x=0; idx_x<500; idx_x++)
+                        {
+                             MyImage->SetPixel( idx_x, idx_y, Color::FromArgb( scene.m_scene[idx_x][idx_y].R, scene.m_scene[idx_x][idx_y].G, scene.m_scene[idx_x][idx_y].B ) );
+                          /*
+                            MyImage->GetPixel( idx_x, idx_y );
+                            if( it->IsDotPoligon(idx_x, idx_y) )
+                                MyImage->SetPixel(  idx_x,idx_y, Color::FromArgb( it->m_color_lines.R, it->m_color_lines.G, it->m_color_brush.B ));
+
+                            if( it->IsDotLine(idx_x, idx_y) )
+                                MyImage->SetPixel(idx_x,idx_y, Color::FromArgb( it->m_color_lines.R, it->m_color_lines.G, it->m_color_lines.B ));
+                            */
+                           
+                        }
+                    }
+                
+                pictureBox1->Refresh();
+                
                 //scene.LoadMyShape( );
              }
     };

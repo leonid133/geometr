@@ -14,26 +14,70 @@ namespace Geometr
 {
     class GEOMETR_API MyShape
     {
-    private:
-
     protected:
-        
         struct CoordXY
         {
             int X;
             int Y;
         };
 
-        
-        CoordXY * pV;
+    
+        bool pt_in_polygon(const CoordXY &test, const std::vector<CoordXY> &polygon)
+        {
+            if (polygon.size()<3) return false;
+
+            auto end=polygon.end();
+
+            CoordXY last_pt=polygon.back();
+
+            last_pt.X-=test.X;
+            last_pt.Y-=test.Y;
+
+            double sum=0.0;
+
+            for(
+                auto iter=polygon.begin();
+                iter!=end;
+            ++iter
+                )
+            {
+                auto cur_pt=*iter;
+                cur_pt.X-=test.X;
+                cur_pt.Y-=test.Y;
+
+                double del= last_pt.X*cur_pt.Y-cur_pt.X*last_pt.Y;
+                double xy= cur_pt.X*last_pt.X+cur_pt.Y*last_pt.Y;
+
+                sum+=
+                    (
+                    atan((last_pt.X*last_pt.X+last_pt.Y*last_pt.Y - xy)/del)+
+                    atan((cur_pt.X*cur_pt.X+cur_pt.Y*cur_pt.Y- xy )/del)
+                    );
+                last_pt=cur_pt;
+            }
+            return fabs(sum)>1;
+        }
+
+        bool isLine(int x, int y, int x1, int y1, int x2, int y2)
+        {
+            if(x<x1 || x>x2 || y<y1 || y>y2)
+                return false;
+            double line_ = ((double)y1 - (double)y2)*(double)x + ((double)x2 - (double)x1)*(double)y+ ((double)x1 * (double)y2 - (double)x2 * (double)y1);
+            if(line_ < 10.0 && line_>-10.0 )
+                return true;
+            return false;
+        };
 
         struct ColorRGB
         {
-            int R;
-            int G;
-            int B;
+            BYTE R;
+            BYTE G;
+            BYTE B;
         };
 
+public:
+        
+        CoordXY * pV;
         ColorRGB m_color_lines;
         ColorRGB m_color_brush;
 
@@ -47,12 +91,17 @@ namespace Geometr
         ShapeLine m_shape_line;
         
         std::string m_shape_name;
-
-    public:
-
+        
         MyShape( )
         {
             m_shape_name = "_name_undefined_";
+            ColorRGB color_def;
+            color_def.B = color_def.G = color_def.R = 0;
+            m_color_lines = color_def;
+            m_color_brush = color_def;
+            ShapeLine shap_def;
+            shap_def = solid;
+            m_shape_line = shap_def;
         };
         MyShape( const MyShape& right )
         {
@@ -91,7 +140,7 @@ namespace Geometr
         }
 
         virtual void SetName( const std::string &name  ){m_shape_name=name;};
-        virtual void V_count(){};
+        virtual void V_count() {};
         
         virtual std::string ToString()
         {
@@ -127,7 +176,56 @@ namespace Geometr
             return true;
         };
 
+        virtual bool SetLinesColor( BYTE R, BYTE G, BYTE B)
+        {
+            if (R<0||R>255||G<0||G>255||B<0||B>255)
+            {
+                return false;
+            }
+            m_color_lines.R = R;
+            m_color_lines.G = G;
+            m_color_lines.B = B;
+            return true;
+        }
+
+        virtual bool SetBrushColor( BYTE R, BYTE G, BYTE B)
+        {
+            if (R<0||R>255||G<0||G>255||B<0||B>255)
+            {
+                return false;
+            }
+            m_color_brush.R = R;
+            m_color_brush.G = G;
+            m_color_brush.B = B;
+            return true;
+        }
+
         int m_count_vertex;
+        
+        virtual bool IsDotLine(int x, int y)
+        {
+            for( int idx = 1; idx < m_count_vertex; ++idx )
+            {
+                if( isLine( x, y, pV[idx-1].X, pV[idx-1].Y, pV[idx].X, pV[idx].Y ) )
+                    return true;
+            }
+            if( isLine( x, y, pV[0].X, pV[0].Y, pV[m_count_vertex-1].X, pV[m_count_vertex-1].Y ) )
+                return true;
+            return false;
+        };
+
+        virtual bool IsDotPoligon(int x, int y)
+        {
+            CoordXY test_p;
+            test_p.X = x;
+            test_p.Y = y;
+            std::vector< CoordXY > polygon;
+            for( int idx = 0; idx < m_count_vertex; ++idx )
+            {
+                polygon.push_back( pV[idx] );
+            }
+            return pt_in_polygon( test_p, polygon );
+        }
 
         virtual ~MyShape(){};
     };
@@ -150,7 +248,8 @@ namespace Geometr
         };
         ~Triangle()
         {
-            delete[] pV;
+            if( pV )
+                delete[] pV;
         };
     };
 
@@ -171,7 +270,8 @@ namespace Geometr
         };
         ~Rectangle()
         {
-            delete[] pV;
+            if( pV )
+                delete[] pV;
         };
     };
 
@@ -192,7 +292,8 @@ namespace Geometr
         };
         ~Square()
         {
-            delete[] pV;
+            if( pV )
+                delete[] pV;
         };
     };
         
@@ -216,7 +317,8 @@ namespace Geometr
 
         ~Polygon()
         {
-            delete[] pV;
+            if( pV )
+                delete[] pV;
         };
     };
 }
