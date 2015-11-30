@@ -1,7 +1,7 @@
 #pragma once
 
 namespace Render {
-
+   
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -12,7 +12,8 @@ namespace Render {
 	/// <summary>
 	/// Summary for Form1
 	/// </summary>
-	
+	 MyScene scene;
+
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
    
@@ -40,6 +41,8 @@ namespace Render {
     protected: 
     private: System::Windows::Forms::Button^  button1;
     private: System::Windows::Forms::ListBox^  listBox1;
+    private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
+
 
 
 	private:
@@ -47,7 +50,7 @@ namespace Render {
 		/// Required designer variable.
 		/// </summary>
 		System::ComponentModel::Container ^components;
-    
+                    
         
 
 #pragma region Windows Form Designer generated code
@@ -60,6 +63,7 @@ namespace Render {
             this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
             this->button1 = (gcnew System::Windows::Forms::Button());
             this->listBox1 = (gcnew System::Windows::Forms::ListBox());
+            this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->BeginInit();
             this->SuspendLayout();
             // 
@@ -73,11 +77,11 @@ namespace Render {
             // 
             // button1
             // 
-            this->button1->Location = System::Drawing::Point(13, 13);
+            this->button1->Location = System::Drawing::Point(13, 39);
             this->button1->Name = L"button1";
             this->button1->Size = System::Drawing::Size(75, 23);
             this->button1->TabIndex = 1;
-            this->button1->Text = L"button1";
+            this->button1->Text = L"Scene";
             this->button1->UseVisualStyleBackColor = true;
             this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
             // 
@@ -90,6 +94,13 @@ namespace Render {
             this->listBox1->Size = System::Drawing::Size(120, 292);
             this->listBox1->TabIndex = 2;
             // 
+            // openFileDialog1
+            // 
+            this->openFileDialog1->FileName = L"openFileDialog1";
+            this->openFileDialog1->Filter = L"*.dll|*.dll";
+            this->openFileDialog1->Multiselect = true;
+            this->openFileDialog1->RestoreDirectory = true;
+            // 
             // Form1
             // 
             this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -99,7 +110,7 @@ namespace Render {
             this->Controls->Add(this->button1);
             this->Controls->Add(this->pictureBox1);
             this->Name = L"Form1";
-            this->Text = L"Form1";
+            this->Text = L"Render";
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->EndInit();
             this->ResumeLayout(false);
 
@@ -115,14 +126,63 @@ namespace Render {
             return false;
         };
 
+        static System::String^ StdToSys(std::string StdStr){
+            return gcnew System::String(StdStr.c_str());
+        }
+        static const std::string SysToStd(System::String^ SysStr){
+            using namespace Runtime::InteropServices;
+            char *v = (char*) (Marshal::StringToHGlobalAnsi(SysStr)).ToPointer() ;
+            std::string result = std::string(v);
+            Marshal::FreeHGlobal(System::IntPtr((void*)v));
+            return result;
+        }
+        wchar_t *convertCharArrayToLPCWSTR(const char* charArray)
+        {
+            wchar_t* wString=new wchar_t[4096];
+            MultiByteToWideChar(CP_ACP, 0, charArray, -1, wString, 4096);
+            return wString;
+        }
+
     private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-                //std::shared_ptr<MyScene> scene = std::make_shared<MyScene>();
-                MyScene scene;
+                //MyScene scene;
                 LPCWSTR name_dll;
+                if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK )
+                {
+                    for each ( String^ file in openFileDialog1->SafeFileNames ) 
+                    {
+                       // MultiByteToWideChar(NULL, NULL, SysToStd( file ).c_str(), 10, name_dll, 10);
+                        String^ strfilename =  System::IO::Path::GetDirectoryName( openFileDialog1->FileName ) +"\\"+ file;
+                        std::string _str = SysToStd(strfilename);
+                        ;
+                        name_dll = (LPCWSTR)convertCharArrayToLPCWSTR( _str.c_str() );
+                        scene.LoadMyShape( name_dll );
+                    }
+                }
+                /*
+                std::string patch_file_name = SysToStd( openFileDialog1->InitialDirectory );
+
+                std::vector<std::string> dll_file_vector;
+                HANDLE hFind;
+                WIN32_FIND_DATA FindFileData;
+
+                if((hFind = FindFirstFile((LPCWSTR)patch_file_name.c_str(), &FindFileData)) != INVALID_HANDLE_VALUE){
+                    do{
+                        dll_file_vector.push_back( FindFileData.cFileName );
+                    }while(FindNextFile(hFind, &FindFileData));
+                    FindClose(hFind);
+                }
+                for(auto it_dll_file_vector = dll_file_vector.begin(); it_dll_file_vector != dll_file_vector.end(); ++it_dll_file_vector )
+                {
+                    name_dll = *it_dll_file_vector;
+                    scene.LoadMyShape( name_dll );
+                }*/
+
+                /***
                 name_dll = ( L"f:\\1\\geometr\\Figs\\fig_triangle2.dll" );
                 scene.LoadMyShape( name_dll );
                 name_dll = ( L"f:\\1\\geometr\\Figs\\fig_triangle3.dll" );
                 scene.LoadMyShape( name_dll );
+                *///
                 scene.CalcScene();                
                 pictureBox1->SizeMode = PictureBoxSizeMode::StretchImage;
                 Bitmap ^MyImage = gcnew Bitmap(500,500);
@@ -132,8 +192,8 @@ namespace Render {
                 {
                     //String ^ Item = it->m_shape_name.c_str();
                     //listBox1->Items->Add( it->m_shape_name.c_str() );
-                    
-                     listBox1->Items->Add( String::Format( "Item {0}", x++ ) );
+                     
+                     listBox1->Items->Add( StdToSys( it->m_shape_name.c_str() ));
                     //listBox1->it add( it->m_shape_name );
                 }
                                         
@@ -158,6 +218,9 @@ namespace Render {
                 
                 //scene.LoadMyShape( );
              }
-    };
+    private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+                 openFileDialog1->ShowDialog();
+             }
+};
 }
 
