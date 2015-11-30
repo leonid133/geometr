@@ -2,27 +2,14 @@
 
 #include "stdafx.h"
 
-//#ifndef SCENEH
-//#define SCENEH
-
 #ifdef SCENE_EXPORTS
 #define SCENE_API __declspec(dllexport)
 #else
 #define SCENE_API //__declspec(dllimport)
 #endif
 
-
-
-
 namespace Scene
 {
-    /*
-    extern SCENE_API int LoadMyShape( )
-    {
-        std::cout << "@@@" << std::endl;
-        return 0;
-    }
-    */
     class SCENE_API MyScene
     {
     private:
@@ -48,7 +35,7 @@ namespace Scene
         std::vector< Geometr::MyShape > m_shapes;
         int m_height;
         int m_width;
-        ColorRGB m_scene[500][500];
+        ColorRGB m_scene[2000][2000];
         
         MyScene()
         {
@@ -56,7 +43,7 @@ namespace Scene
             m_width = 500;
             ClearScene();
         };
-        MyScene(int height, int width)
+        MyScene( int width, int height )
         {
             m_height = height;
             m_width = width;
@@ -123,9 +110,9 @@ namespace Scene
         void CalcScene()
         {
             ClearScene();
-            for(int idx_y=0; idx_y<500; idx_y++)
+            for(int idx_y=0; idx_y < m_height; idx_y++)
             {
-                for(int idx_x=0; idx_x<500; idx_x++)
+                for(int idx_x=0; idx_x < m_width; idx_x++)
                 {
                     for( auto it = m_shapes.begin(); it < m_shapes.end(); ++it )
                     {
@@ -144,7 +131,7 @@ namespace Scene
                         }
                         else
                         {
-                            // m_scene[idx_x][idx_y].R =  m_scene[idx_x][idx_y].G =  m_scene[idx_x][idx_y].B = 255;
+                             //m_scene[idx_x][idx_y].R =  m_scene[idx_x][idx_y].G =  m_scene[idx_x][idx_y].B = 0;
                         }
                     }
                 }
@@ -153,4 +140,3 @@ namespace Scene
         ~MyScene(){};
     };
 }
-//#endif

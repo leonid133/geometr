@@ -9,7 +9,8 @@ namespace Fig
     class Fig
     {
         public: 
-        static FIG_API Geometr::Triangle Init();
+        //static FIG_API Geometr::Triangle Init();
+            static FIG_API Geometr::Rectangle Init();
            // static FIG_API int Init();
     };
    

@@ -257,6 +257,7 @@ public:
     {
     private:
          virtual void V_count(){m_count_vertex = 4;};
+         
     public:
         Rectangle()
         {
@@ -267,6 +268,64 @@ public:
                 pV[idx].X = 0;
                 pV[idx].Y = 0;
             }
+        };
+        virtual bool SetCoord( std::vector<std::pair<int, int> > coord_x_y  )
+        {
+            if( coord_x_y.size() != 3)
+                return false;
+
+            std::sort( coord_x_y.begin(), coord_x_y.end() );
+            int idx_coord = 0;
+            for( auto it = coord_x_y.begin(); it < coord_x_y.end(); ++it )
+            {
+                if( idx_coord == 0 || idx_coord == 1 )
+                {
+                    pV[idx_coord].X = it->first;
+                    pV[idx_coord++].Y = it->second;
+                }
+                else
+                {
+                    
+
+                    double x1 = pV[0].X;
+                    double y1 = pV[0].Y;
+
+                    double x2 = pV[1].X;
+                    double y2 = pV[1].Y;
+
+                    double x = x2;
+                    double y = y2;
+
+                    double k1 = -(x2-x1)/(y2-y1);
+                    double b1 = x*(x2-x1)/(y2-y1) + y;
+
+                    double x3 = it->first;
+                    double y3 = it->second;
+
+                    double k2 = -(y1-y2)/(x2-x1);
+                    double b2 = ((y1-y2)*x3 + (x2-x1)*y3)/(x2-x1);
+
+                    double x4 = (b2-b1)/(k1-k2);
+                    double y4 = k2*x4 + b2;
+
+                    pV[idx_coord].X = (int)x4;
+                    pV[idx_coord++].Y = (int)y4;
+
+                    x = x1;
+                    y = y1;
+
+                    b1 = x*(x2-x1)/(y2-y1) + y;
+
+                    x4 = (b2-b1)/(k1-k2);
+                    y4 = k2*x4 + b2;
+
+                    pV[idx_coord].X = (int)x4;
+                    pV[idx_coord++].Y = (int)y4;
+                }
+            }
+            
+
+            return true;
         };
         ~Rectangle()
         {
