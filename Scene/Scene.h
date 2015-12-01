@@ -32,7 +32,7 @@ namespace Scene
                 }
             }
         }
-        std::set<std::pair<std::string, std::string> > m_shap_map;
+        std::map<std::string, std::string> m_shap_map;
     public:
         std::vector< Geometr::MyShape > m_shapes;
         int m_height; //ToDo перенести в приват и сделать Get метод
@@ -128,7 +128,7 @@ namespace Scene
                                 std::stringstream ss2;
                                 ss2 << first_coord << " <-> "<< it->ToString(false, false).str();
                                 m_shap_map.insert(make_pair(ss.str(), ss2.str()));
-                                // m_shap_map.insert(ss.str(), ss2.str());
+                                //m_shap_map.insert(make_pair(ss.str(), 1));
                             }
                             label++;
                             first_name = it->m_shape_name;
@@ -136,13 +136,14 @@ namespace Scene
                             m_scene[idx_x][idx_y].R = (m_scene[idx_x][idx_y].R + it->m_color_brush.R)/2;
                             m_scene[idx_x][idx_y].G = (m_scene[idx_x][idx_y].R + it->m_color_brush.G)/2;
                             m_scene[idx_x][idx_y].B = (m_scene[idx_x][idx_y].R + it->m_color_brush.B)/2;
-                            /*if( it->IsDotLine(idx_x, idx_y) )
+                            if( it->IsDotLine(idx_x, idx_y) )
                             {
-                                m_scene[idx_x][idx_y].R = (m_scene[idx_x][idx_y].R + it->m_color_lines.R)/2;
-                                m_scene[idx_x][idx_y].G = (m_scene[idx_x][idx_y].R + it->m_color_lines.G)/2;
-                                m_scene[idx_x][idx_y].B = (m_scene[idx_x][idx_y].R + it->m_color_lines.B)/2;
+                                Geometr::MyShape::ColorRGB line_color = it->GetColorLine();
+                                m_scene[idx_x][idx_y].R = line_color.R;
+                                m_scene[idx_x][idx_y].G = line_color.G;
+                                m_scene[idx_x][idx_y].B = line_color.B;
                                 
-                            }*/
+                            }
                         }
                     }
                 }
@@ -168,29 +169,34 @@ namespace Scene
             return true;
         }
         bool OutIntersected()
-        {
-            // ¬ыходной текстовый файл out_loaded_sort.txt, включающий список имен и координат вершин, отсортированный по возрастанию.
+{
+    // ¬ыходной текстовый файл out_loaded_sort.txt, включающий список имен и координат вершин, отсортированный по возрастанию.
 
-            std::string logfile = "out_intersected.txt";
-            std::ofstream log_filestream( logfile, std::ios_base::trunc );
-            if(!log_filestream.is_open())
-            {
-                return false;
-            }
-            std::cout.rdbuf(log_filestream.rdbuf());
-            std::cout << m_shap_map.size();
-            //std::cout << m_shap_map._Alnod//
-             //for( auto it = 0; it < m_shap_map.size(); ++it )
-            
-            for( auto it = m_shap_map.begin(); it < m_shap_map.end(); ++it )
-            {
-                //m_shap_map..(it);
-                //std::cout << m_shap_map->_Key() << std::endl;
-                //std::cout << it->value_compare << std::endl;
-            }
-            log_filestream.close();
-            return true;
-        }
+    std::string logfile = "out_intersected.txt";
+    std::ofstream log_filestream( logfile, std::ios_base::trunc );
+    if(!log_filestream.is_open())
+    {
+        return false;
+    }
+    std::cout.rdbuf(log_filestream.rdbuf());
+    std::cout << m_shap_map.size();
+
+
+    m_shap_map.begin();
+    m_shap_map.end();
+    m_shap_map.find("aaa");
+    std::map< std::string, std::string >::const_iterator it;
+    it = m_shap_map.begin();
+    while(it !=  m_shap_map.end())
+    {
+        std::cout << it->first << std::endl;
+        std::cout << it->second << std::endl;
+        ++it;
+    }
+
+    log_filestream.close();
+    return true;
+}
         ~MyScene(){};
     };
 }

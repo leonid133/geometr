@@ -70,17 +70,20 @@ namespace Geometr
             return false;
         };
 
-        struct ColorRGB
-        {
-            BYTE R;
-            BYTE G;
-            BYTE B;
-        };
-
-public:
         
+       
+        
+public:
+    struct ColorRGB
+    {
+        BYTE R;
+        BYTE G;
+        BYTE B;
+    };
+     ColorRGB m_color_lines;
+     int m_line_shaper;
         CoordXY * pV;
-        ColorRGB m_color_lines;
+
         ColorRGB m_color_brush;
 
         enum ShapeLine
@@ -91,7 +94,24 @@ public:
         };
 
         ShapeLine m_shape_line;
-        
+        ColorRGB GetColorLine()
+        {
+            if(m_shape_line == solid)
+                return m_color_lines;
+            else if(m_shape_line == dotted_line)
+            {
+                if(m_line_shaper>5 || m_line_shaper<0 )
+                    m_line_shaper=0;
+                m_line_shaper++;
+            }
+            else if(m_shape_line == dotted_bar)
+            {
+               if( m_line_shaper>6 || m_line_shaper<0 )
+                    m_line_shaper=0;
+                m_line_shaper++;
+            }
+        }
+
         std::string m_shape_name;
         
         MyShape( )
@@ -104,6 +124,7 @@ public:
             ShapeLine shap_def;
             shap_def = solid;
             m_shape_line = shap_def;
+            m_line_shaper = 0;
         };
         MyShape( const MyShape& right )
         {
