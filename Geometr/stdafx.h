@@ -22,3 +22,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <functional>
+#include <iostream>
+#include <sstream>

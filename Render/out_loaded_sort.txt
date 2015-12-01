@@ -1,0 +1,15 @@
+fig_triangle.dll
+ X:35; Y:145;
+ X:90; Y:30;
+ X:100; Y:160;
+
+fig_triangle2
+ X:10; Y:10;
+ X:15; Y:25;
+ X:50; Y:40;
+
+fig_triangle3.dll
+ X:15; Y:125;
+ X:70; Y:10;
+ X:80; Y:140;
+

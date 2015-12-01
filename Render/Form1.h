@@ -1,6 +1,6 @@
 #pragma once
-#define Y_MAX 300
-#define X_MAX 300
+#define Y_MAX 500
+#define X_MAX 500
 namespace Render {
     
     using namespace System;
@@ -155,6 +155,7 @@ namespace Render {
             MultiByteToWideChar(CP_ACP, 0, charArray, -1, wString, 4096);
             return wString;
         }
+        
         void RepaintScene()
         {
             scene.CalcScene(); 
@@ -174,6 +175,8 @@ namespace Render {
             }
             pictureBox1->Image = MyImage;
             pictureBox1->Refresh();
+            scene.OutLoadedSort();
+            scene.OutIntersected();
         }
         
     private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -191,7 +194,6 @@ namespace Render {
                         scene.LoadMyShape( name_dll );
                     }
                 }
-                
                 
                 RepaintScene();
     }

@@ -17,3 +17,7 @@
 #include <string>
 #include "geometr.h"
 #include <iostream>
+#include <sstream>
+#include <fstream>
+#include <set>
+#include <map>

@@ -9,7 +9,6 @@
 #define GEOMETR_API //__declspec(dllimport) 
 #endif
 
-
 namespace Geometr
 {
     class GEOMETR_API MyShape
@@ -58,12 +57,15 @@ namespace Geometr
             return fabs(sum)>1;
         }
 
-        bool isLine(int x, int y, int x1, int y1, int x2, int y2)
+        bool isLine(const int &x, const int &y, const int &x1, const int &y1, const int &x2, const int &y2)
         {
-            if(x<x1 || x>x2 || y<y1 || y>y2)
-                return false;
-            double line_ = ((double)y1 - (double)y2)*(double)x + ((double)x2 - (double)x1)*(double)y+ ((double)x1 * (double)y2 - (double)x2 * (double)y1);
-            if(line_ < 10.0 && line_>-10.0 )
+            //if(x<x1 || x>x2 || y<y1 || y>y2)
+              //  return false;
+            /*double line_ = ((double)y1 - (double)y2)*(double)x + ((double)x2 - (double)x1)*(double)y+ ((double)x1 * (double)y2 - (double)x2 * (double)y1);
+            if(line_ < 1.0 && line_>-1.0 )
+                return true;*/
+            int line_ = (y1 - y2)*x + (x2 - x1)*y+ (x1 * y2 - x2 * y1);
+            if(line_ < 10 && line_>-10 )
                 return true;
             return false;
         };
@@ -142,20 +144,32 @@ public:
         virtual void SetName( const std::string &name  ){m_shape_name=name;};
         virtual void V_count() {};
         
-        virtual std::string ToString()
+        virtual std::stringstream ToString( bool unsort, bool ascending)
         {
-            std::string coord_str;
-            coord_str = "/nКоординаты вершин фигуры/n";
-            for(int it_v =0 ; it_v < m_count_vertex; ++it_v)
+            std::stringstream coord_str;
+            
+            std::vector<std::pair<int, int> > coord_x_y;
+            for(int idx_v =0 ; idx_v < m_count_vertex; ++idx_v)
             {
-                coord_str +="/n";
-                coord_str +="V[";
-                coord_str +=it_v;
-                coord_str +="]; X:";
-                coord_str += pV[it_v].X;
-                coord_str +="; Y:";
-                coord_str += pV[it_v].Y;
-                coord_str +=";/n";
+                std::pair<int, int> v;
+                v.first = pV[idx_v].X;
+                v.second = pV[idx_v].Y;
+                coord_x_y.push_back( v );
+                if( unsort )
+                    coord_str << "V[" << idx_v <<"]; X:" << pV[idx_v].X << "; Y:" << pV[idx_v++].Y << ";" << std::endl;
+            }
+            if(!unsort && ascending)
+                std::sort( coord_x_y.begin(), coord_x_y.end() );
+            else if(!unsort && !ascending)
+                std::sort( coord_x_y.begin(), coord_x_y.end(), [](const std::pair<int, int> & a, const std::pair<int, int> & b)
+            { 
+                return a.first > b.first; 
+            });
+            int idx_v =0;
+            if(!unsort)
+            for( auto it = coord_x_y.begin(); it < coord_x_y.end(); ++it )
+            {
+                coord_str << " X:" << it->first << "; Y:" << it->second << ";" << std::endl;
             }
             return coord_str;
         };
@@ -165,7 +179,6 @@ public:
             if( coord_x_y.size() != m_count_vertex)
                 return false;
 
-            std::sort( coord_x_y.begin(), coord_x_y.end() );
             int idx_coord = 0;
             for( auto it = coord_x_y.begin(); it < coord_x_y.end(); ++it )
             {
@@ -202,7 +215,7 @@ public:
 
         int m_count_vertex;
         
-        virtual bool IsDotLine(int x, int y)
+        virtual bool IsDotLine(const int &x, const int &y)
         {
             for( int idx = 1; idx < m_count_vertex; ++idx )
             {
@@ -214,7 +227,7 @@ public:
             return false;
         };
 
-        virtual bool IsDotPoligon(int x, int y)
+        virtual bool IsDotPoligon(const int &x, const int &y)
         {
             CoordXY test_p;
             test_p.X = x;
@@ -253,7 +266,7 @@ public:
         };
     };
 
-    class GEOMETR_API Rectangle: public MyShape
+    class GEOMETR_API Rectangle: public MyShape 
     {
     private:
          virtual void V_count(){m_count_vertex = 4;};
@@ -269,7 +282,7 @@ public:
                 pV[idx].Y = 0;
             }
         };
-        virtual bool SetCoord( std::vector<std::pair<int, int> > coord_x_y  )
+        virtual bool SetCoord( std::vector<std::pair<int, int> > coord_x_y  /*задается тремя точками, третья точка указывает на параллельную отрезку из первых точек прямую*/)
         {
             if( coord_x_y.size() != 3)
                 return false;
@@ -285,8 +298,6 @@ public:
                 }
                 else
                 {
-                    
-
                     double x1 = pV[0].X;
                     double y1 = pV[0].Y;
 
@@ -349,6 +360,48 @@ public:
                 pV[idx].Y = 0;
             }
         };
+        virtual bool SetCoord( std::vector<std::pair<int, int> > coord_x_y /*задается двумя диаганальными точками*/ )
+        {
+            if( coord_x_y.size() != 2)
+                return false;
+            int idx_coord = 0;
+            for( auto it = coord_x_y.begin(); it < coord_x_y.end(); ++it )
+            {
+                if( idx_coord == 0 )
+                {
+                    pV[idx_coord].X = it->first;
+                    pV[idx_coord++].Y = it->second;
+                }
+                else if(idx_coord == 1 )
+                {
+                    pV[2].X = it->first;
+                    pV[2].Y = it->second;
+                    
+                }
+            }
+            double x1 = pV[0].X;
+            double y1 = pV[0].Y;
+            
+            double x3 = pV[2].X;
+            double y3 = pV[2].Y;
+            
+            double dx=((x1-x3)/2);
+            double dy=((y1-y3)/2);
+
+            double x2= ((x1+x3)/2)-dy;
+            double y2=((y1+y3)/2)+dx;
+            
+            pV[1].X = (int)x2;
+            pV[1].Y = (int)y2;
+
+            double x4=((x1+x3)/2)+dy;
+            double y4=((y1+y3)/2)-dx;
+
+            pV[3].X = (int)x4;
+            pV[3].Y = (int)y4;
+
+            return true;
+        }
         ~Square()
         {
             if( pV )
@@ -362,7 +415,16 @@ public:
         virtual void V_count(){};
         
     public:
-        Polygon(){};
+        Polygon()
+        {
+            m_count_vertex = 3;
+            pV = new CoordXY[m_count_vertex];
+            for( int idx = 0; idx < m_count_vertex; ++idx )
+            {
+                pV[idx].X = 0;
+                pV[idx].Y = 0;
+            }
+        };
         Polygon(int n)
         {
             m_count_vertex = n;
