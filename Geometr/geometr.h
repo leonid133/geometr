@@ -13,13 +13,21 @@ namespace Geometr
 {
     class GEOMETR_API MyShape
     {
-    protected:
+    public:
         struct CoordXY
         {
             int X;
             int Y;
         };
+        struct ColorRGB
+        {
+            BYTE R;
+            BYTE G;
+            BYTE B;
+        };
 
+    protected:
+        
     
         bool pt_in_polygon(const CoordXY &test, const std::vector<CoordXY> &polygon)
         {
@@ -59,32 +67,22 @@ namespace Geometr
 
         bool isLine(const int &x, const int &y, const int &x1, const int &y1, const int &x2, const int &y2)
         {
-            //if(x<x1 || x>x2 || y<y1 || y>y2)
-              //  return false;
-            /*double line_ = ((double)y1 - (double)y2)*(double)x + ((double)x2 - (double)x1)*(double)y+ ((double)x1 * (double)y2 - (double)x2 * (double)y1);
-            if(line_ < 1.0 && line_>-1.0 )
-                return true;*/
+            if( !( ( x1 < x && x < x2 ) || (x2 < x && x < x1 ) || ( y1 < y && y < y2 ) || (y2 < y && y < y1 ) ) )
+                return false;
             int line_ = (y1 - y2)*x + (x2 - x1)*y+ (x1 * y2 - x2 * y1);
-            if(line_ < 10 && line_>-10 )
+            if(line_ < 1 && line_>-1 )
                 return true;
             return false;
         };
-
-        
-       
+int m_line_shaper;
         
 public:
-    struct ColorRGB
-    {
-        BYTE R;
-        BYTE G;
-        BYTE B;
-    };
-     ColorRGB m_color_lines;
-     int m_line_shaper;
-        CoordXY * pV;
 
-        ColorRGB m_color_brush;
+    ColorRGB m_color_lines;
+    ColorRGB m_def_color;
+    ColorRGB m_color_brush;
+    
+    CoordXY * pV;
 
         enum ShapeLine
         {
@@ -100,15 +98,23 @@ public:
                 return m_color_lines;
             else if(m_shape_line == dotted_line)
             {
-                if(m_line_shaper>5 || m_line_shaper<0 )
+                if(m_line_shaper>20 || m_line_shaper<0 )
                     m_line_shaper=0;
                 m_line_shaper++;
+                if(m_line_shaper == 1)
+                    return m_color_lines;
+                else if(m_line_shaper == 10 || m_line_shaper == 11 || m_line_shaper == 12 || m_line_shaper == 13 || m_line_shaper == 14 || m_line_shaper == 15 )
+                    return m_color_lines;
+                else return m_def_color;
             }
             else if(m_shape_line == dotted_bar)
             {
                if( m_line_shaper>6 || m_line_shaper<0 )
                     m_line_shaper=0;
                 m_line_shaper++;
+                if(m_line_shaper == 1)
+                    return m_color_lines;
+                else return m_def_color;
             }
         }
 
@@ -117,10 +123,9 @@ public:
         MyShape( )
         {
             m_shape_name = "_name_undefined_";
-            ColorRGB color_def;
-            color_def.B = color_def.G = color_def.R = 0;
-            m_color_lines = color_def;
-            m_color_brush = color_def;
+            m_def_color.B = m_def_color.G = m_def_color.R = 0;
+            m_color_lines = m_def_color;
+            m_color_brush = m_def_color;
             ShapeLine shap_def;
             shap_def = solid;
             m_shape_line = shap_def;
@@ -130,10 +135,11 @@ public:
         {
             m_shape_name = right.m_shape_name;
             m_shape_line = right.m_shape_line;
+            m_line_shaper = right.m_line_shaper;
             m_count_vertex = right.m_count_vertex;
             m_color_lines = right.m_color_lines;
             m_color_brush = right.m_color_brush;
-           
+            m_def_color.B = m_def_color.G = m_def_color.R = 0;
             pV = new CoordXY[m_count_vertex]; 
             for( int idx = 0; idx < m_count_vertex; ++idx )
             {
@@ -148,9 +154,11 @@ public:
             }
             m_shape_name = right.m_shape_name;
             m_shape_line = right.m_shape_line;
+            m_line_shaper = right.m_line_shaper;
             m_count_vertex = right.m_count_vertex;
             m_color_lines = right.m_color_lines;
             m_color_brush = right.m_color_brush;
+            m_def_color = right.m_def_color;
             if( pV )
                 delete[] pV;
             pV = new CoordXY[m_count_vertex]; 
@@ -247,6 +255,78 @@ public:
                 return true;
             return false;
         };
+
+        virtual std::vector<CoordXY> F(int x_max, int y_max)
+        {
+            std::vector<CoordXY> y_out;
+            CoordXY xy;
+            for( int idx = 1; idx < m_count_vertex; ++idx )
+            {
+                
+                double x1 = pV[idx-1].X;
+                double y1 = pV[idx-1].Y;
+                double x2 = pV[idx].X;
+                double y2 = pV[idx].Y;
+                if( abs(x1 - x2) < 50 )
+                {
+                    for(int y = 0; y < y_max; y++)
+                    {
+                        double x = -y*(x2-x1)/(y1-y2) - (x1*y2 - x2*y1)/(y1-y2);
+                        if( ( x1 < x && x < x2 ) || (x2 < x && x < x1 ) || ( y1 < y && y < y2 ) || (y2 < y && y < y1 ) )
+                        {
+                            xy.X = (int)x;
+                            xy.Y = (int)y;
+                            y_out.push_back(xy);
+                        }
+                    }
+                }
+                else
+                {
+                    for(int x = 0; x < x_max; x++)
+                    {
+                        double y = -x*(y1-y2)/(x2-x1) - (x1*y2 - x2*y1)/(x2-x1);
+                        if( ( x1 < x && x < x2 ) || (x2 < x && x < x1 ) || ( y1 < y && y < y2 ) || (y2 < y && y < y1 ) )
+                        {
+                            xy.X = (int)x;
+                            xy.Y = (int)y;
+                            y_out.push_back(xy);
+                        }
+                    }
+                }
+            }
+            double x1 = pV[0].X;
+            double y1 = pV[0].Y;
+            double x2 = pV[m_count_vertex-1].X;
+            double y2 = pV[m_count_vertex-1].Y;
+            if( abs(x1 - x2) < 50 )
+            {
+                for(int y = 0; y < y_max; y++)
+                {
+                    double x = -y*(x2-x1)/(y1-y2) - (x1*y2 - x2*y1)/(y1-y2);
+                    if( ( x1 < x && x < x2 ) || (x2 < x && x < x1 ) || ( y1 < y && y < y2 ) || (y2 < y && y < y1 ) )
+                    {
+                        xy.X = (int)x;
+                        xy.Y = (int)y;
+                        y_out.push_back(xy);
+                    }
+                }
+            }
+            else
+            {
+                for(int x = 0; x < x_max; x++)
+                {
+                
+                    double y = -x*(y1-y2)/(x2-x1) - (x1*y2 - x2*y1)/(x2-x1);
+                    if( ( x1 < x && x < x2 ) || (x2 < x && x < x1 ) || ( y1 < y && y < y2 ) || (y2 < y && y < y1 ) )
+                    {
+                        xy.X = (int)x;
+                        xy.Y = (int)y;
+                        y_out.push_back(xy);
+                    }
+                }
+            }
+            return y_out;
+        }
 
         virtual bool IsDotPoligon(const int &x, const int &y)
         {

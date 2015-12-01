@@ -128,7 +128,6 @@ namespace Scene
                                 std::stringstream ss2;
                                 ss2 << first_coord << " <-> "<< it->ToString(false, false).str();
                                 m_shap_map.insert(make_pair(ss.str(), ss2.str()));
-                                //m_shap_map.insert(make_pair(ss.str(), 1));
                             }
                             label++;
                             first_name = it->m_shape_name;
@@ -136,19 +135,55 @@ namespace Scene
                             m_scene[idx_x][idx_y].R = (m_scene[idx_x][idx_y].R + it->m_color_brush.R)/2;
                             m_scene[idx_x][idx_y].G = (m_scene[idx_x][idx_y].R + it->m_color_brush.G)/2;
                             m_scene[idx_x][idx_y].B = (m_scene[idx_x][idx_y].R + it->m_color_brush.B)/2;
-                            if( it->IsDotLine(idx_x, idx_y) )
-                            {
-                                Geometr::MyShape::ColorRGB line_color = it->GetColorLine();
-                                m_scene[idx_x][idx_y].R = line_color.R;
-                                m_scene[idx_x][idx_y].G = line_color.G;
-                                m_scene[idx_x][idx_y].B = line_color.B;
-                                
-                            }
+                            
                         }
+                        /*if( it->IsDotLine(idx_x, idx_y) )
+                        {
+                        Geometr::MyShape::ColorRGB line_color = it->GetColorLine();
+                        m_scene[idx_x][idx_y].R = line_color.R;
+                        m_scene[idx_x][idx_y].G = line_color.G;
+                        m_scene[idx_x][idx_y].B = line_color.B;
+                        }*/
                     }
                 }
             }
+            for( auto it = m_shapes.begin(); it < m_shapes.end(); ++it )
+            {
+                    std::vector<Geometr::MyShape::CoordXY> y( it->F( m_width, m_height ) );
+                    for (auto it_y = y.begin(); it_y < y.end(); ++it_y)
+                    {
+                        if( ( 0 < it_y->Y && it_y->Y < m_height ) && ( 0 < it_y->X && it_y->X < m_width ) )
+                        {
+                            Geometr::MyShape::ColorRGB line_color = it->GetColorLine();
+                            m_scene[it_y->X][it_y->Y].R = line_color.R;
+                            m_scene[it_y->X][it_y->Y].G = line_color.G;
+                            m_scene[it_y->X][it_y->Y].B = line_color.B;
+                        }
+                    }
+                    /*for( int idx = 1; idx < it->m_count_vertex; ++idx )
+                    {
+                        double x = idx_x;
+                        double x1 = it->pV[idx-1].X;
+                        double y1 = it->pV[idx-1].Y;
+                        double x2 = it->pV[idx].X;
+                        double y2 =  it->pV[idx].Y;
+                        double y = -x*(y1-y2)/(x2-x1) - (x1*y2 - x2*y1)/(x2-x1);
+                        if( ( x1 < x && x < x2 ) || (x2 < x && x < x1 ) || ( y1 < y && y < y2 ) || (y2 < y && y < y1 ) )
+                        {
+                            if( 0 < y && y < m_height )
+                            {
+                                Geometr::MyShape::ColorRGB line_color = it->GetColorLine();
+                                m_scene[idx_x][(int)y].R = line_color.R;
+                                m_scene[idx_x][(int)y].G = line_color.G;
+                                m_scene[idx_x][(int)y].B = line_color.B;
+                            }
+                        }
+                        
+                    }*/
+            }
         }
+        
+
         bool OutLoadedSort()
         {
             // ¬ыходной текстовый файл out_loaded_sort.txt, включающий список имен и координат вершин, отсортированный по возрастанию.
@@ -169,34 +204,34 @@ namespace Scene
             return true;
         }
         bool OutIntersected()
-{
-    // ¬ыходной текстовый файл out_loaded_sort.txt, включающий список имен и координат вершин, отсортированный по возрастанию.
+        {
+            // ¬ыходной текстовый файл out_loaded_sort.txt, включающий список имен и координат вершин, отсортированный по возрастанию.
 
-    std::string logfile = "out_intersected.txt";
-    std::ofstream log_filestream( logfile, std::ios_base::trunc );
-    if(!log_filestream.is_open())
-    {
-        return false;
-    }
-    std::cout.rdbuf(log_filestream.rdbuf());
-    std::cout << m_shap_map.size();
+            std::string logfile = "out_intersected.txt";
+            std::ofstream log_filestream( logfile, std::ios_base::trunc );
+            if(!log_filestream.is_open())
+            {
+                return false;
+            }
+            std::cout.rdbuf(log_filestream.rdbuf());
+            std::cout << m_shap_map.size();
 
 
-    m_shap_map.begin();
-    m_shap_map.end();
-    m_shap_map.find("aaa");
-    std::map< std::string, std::string >::const_iterator it;
-    it = m_shap_map.begin();
-    while(it !=  m_shap_map.end())
-    {
-        std::cout << it->first << std::endl;
-        std::cout << it->second << std::endl;
-        ++it;
-    }
+            m_shap_map.begin();
+            m_shap_map.end();
+            m_shap_map.find("aaa");
+            std::map< std::string, std::string >::const_iterator it;
+            it = m_shap_map.begin();
+            while(it !=  m_shap_map.end())
+            {
+                std::cout << it->first << std::endl;
+                std::cout << it->second << std::endl;
+                ++it;
+            }
 
-    log_filestream.close();
-    return true;
-}
+            log_filestream.close();
+            return true;
+        }
         ~MyScene(){};
     };
 }
