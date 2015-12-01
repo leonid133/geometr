@@ -104,7 +104,7 @@ Geometr::Triangle Fig::Init()
         //0xEE82EE violet
         //0xFF7F50 coral
         //0xB22222 firebrick
-        polygon_.m_shape_line = polygon_.ShapeLine::dotted_line;
+        polygon_.m_shape_line = polygon_.ShapeLine::dotted_bar;
         polygon_.SetLinesColor(0xFF, 0xFF, 0xFF);
         polygon_.SetBrushColor(0x8E, 0x22, 0x1E);
         polygon_.SetCoord( coord_pairs );

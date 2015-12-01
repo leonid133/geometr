@@ -13,26 +13,22 @@ namespace Scene
 {
     class SCENE_API MyScene
     {
-    private:
         struct ColorRGB
         {
             BYTE R;
             BYTE G;
             BYTE B;
         };
-        void ClearScene()
-        {
-            for(int idx_y=0; idx_y<m_height; idx_y++)
-            {
-                for(int idx_x=0; idx_x<m_width; idx_x++)
-                {
-                    m_scene[idx_x][idx_y].R = 0;
-                    m_scene[idx_x][idx_y].G = 0;
-                    m_scene[idx_x][idx_y].B = 0;
-                }
-            }
-        }
+        void ClearScene();
         std::map<std::string, std::string> m_shap_map;
+
+        wchar_t *convertCharArrayToLPCWSTR(const char* charArray)
+        {
+            wchar_t* wString=new wchar_t[4096];
+            MultiByteToWideChar(CP_ACP, 0, charArray, -1, wString, 4096);
+            return wString;
+        }
+
     public:
         std::vector< Geometr::MyShape > m_shapes;
         int m_height; //ToDo перенести в приват и сделать Get метод
@@ -52,10 +48,11 @@ namespace Scene
             ClearScene();
         };
 
-        bool LoadMyShape( LPCWSTR name_dll )
+        bool LoadMyShape( std::string patch_name_dll )
         {
             HINSTANCE h;
-
+            LPCWSTR name_dll;
+            name_dll = (LPCWSTR)convertCharArrayToLPCWSTR( patch_name_dll.c_str() );
             h = LoadLibrary( name_dll );
             if ( !h )
             {
@@ -94,7 +91,12 @@ namespace Scene
             }
 
             *pb = figure();
-                        
+            size_t slash_pos = patch_name_dll.rfind( '\\' );
+            if(!( ( slash_pos == std::string::npos ) || ( slash_pos == patch_name_dll.length() - 1 ) ))
+            {
+                pb->m_shape_name = patch_name_dll.substr( slash_pos + 1 );
+            }
+            
             m_shapes.push_back( *pb );
             
             delete pb;

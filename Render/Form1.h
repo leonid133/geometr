@@ -12,7 +12,6 @@ namespace Render {
     using namespace Scene;
     MyScene scene(X_MAX, Y_MAX);
    
-
     public ref class Form1 : public System::Windows::Forms::Form
     {
    
@@ -42,21 +41,12 @@ namespace Render {
     private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
     private: System::Windows::Forms::Button^  button2;
 
-
-
-    private:
-
-        System::ComponentModel::Container ^components;
-                    
-        
+    private: System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		void InitializeComponent(void)
-		{
+
+        void InitializeComponent(void)
+        {
             this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
             this->button1 = (gcnew System::Windows::Forms::Button());
             this->listBox1 = (gcnew System::Windows::Forms::ListBox());
@@ -129,6 +119,7 @@ namespace Render {
 
         }
 #pragma endregion
+        /*
         bool isLineDot(int x, int y, int x1, int y1, int x2, int y2)
         {
             if(x<x1 || x>x2 || y<y1 || y>y2)
@@ -138,7 +129,7 @@ namespace Render {
                 return true;
             return false;
         };
-
+        */
         static System::String^ StdToSys(std::string StdStr){
             return gcnew System::String(StdStr.c_str());
         }
@@ -149,12 +140,12 @@ namespace Render {
             Marshal::FreeHGlobal(System::IntPtr((void*)v));
             return result;
         }
-        wchar_t *convertCharArrayToLPCWSTR(const char* charArray)
+        /*wchar_t *convertCharArrayToLPCWSTR(const char* charArray)
         {
             wchar_t* wString=new wchar_t[4096];
             MultiByteToWideChar(CP_ACP, 0, charArray, -1, wString, 4096);
             return wString;
-        }
+        }*/
         
         void RepaintScene()
         {
@@ -181,16 +172,13 @@ namespace Render {
         
     private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
                 
-                LPCWSTR name_dll;
-                if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK )
+                if ( openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK )
                 {
                     for each ( String^ file in openFileDialog1->SafeFileNames ) 
                     {
                        
                         String^ strfilename =  System::IO::Path::GetDirectoryName( openFileDialog1->FileName ) +"\\"+ file;
-                        std::string _str = SysToStd(strfilename);
-                        ;
-                        name_dll = (LPCWSTR)convertCharArrayToLPCWSTR( _str.c_str() );
+                        std::string name_dll = SysToStd( strfilename );
                         scene.LoadMyShape( name_dll );
                     }
                 }
