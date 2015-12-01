@@ -9,8 +9,8 @@ namespace Render {
     using namespace System::Windows::Forms;
     using namespace System::Data;
     using namespace System::Drawing;
-    using namespace Scene;
-    MyScene scene(X_MAX, Y_MAX);
+
+    Scene::MyScene scene(X_MAX, Y_MAX);
    
     public ref class Form1 : public System::Windows::Forms::Form
     {
@@ -21,7 +21,7 @@ namespace Render {
             InitializeComponent();
             this->pictureBox1->SizeMode = PictureBoxSizeMode::StretchImage;
             //Bitmap
-            this->MyImage = gcnew Bitmap(scene.m_width, scene.m_height);
+            this->MyImage = gcnew Bitmap(scene.Width(), scene.Height() );
         }
 
     protected:
@@ -35,11 +35,15 @@ namespace Render {
             }
         }
     private: System::Windows::Forms::PictureBox^  pictureBox1;
+    private: System::Windows::Forms::Button^  Button_AddFigs;
+
+
     protected: 
-    private: System::Windows::Forms::Button^  button1;
+
     private: System::Windows::Forms::ListBox^  listBox1;
     private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
-    private: System::Windows::Forms::Button^  button2;
+    private: System::Windows::Forms::Button^  Button_DelSelFig;
+
 
     private: System::ComponentModel::Container ^components;
 
@@ -48,10 +52,10 @@ namespace Render {
         void InitializeComponent(void)
         {
             this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-            this->button1 = (gcnew System::Windows::Forms::Button());
+            this->Button_AddFigs = (gcnew System::Windows::Forms::Button());
             this->listBox1 = (gcnew System::Windows::Forms::ListBox());
             this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
-            this->button2 = (gcnew System::Windows::Forms::Button());
+            this->Button_DelSelFig = (gcnew System::Windows::Forms::Button());
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->BeginInit();
             this->SuspendLayout();
             // 
@@ -65,15 +69,15 @@ namespace Render {
             this->pictureBox1->TabIndex = 0;
             this->pictureBox1->TabStop = false;
             // 
-            // button1
+            // Button_AddFigs
             // 
-            this->button1->Location = System::Drawing::Point(12, 12);
-            this->button1->Name = L"button1";
-            this->button1->Size = System::Drawing::Size(78, 31);
-            this->button1->TabIndex = 1;
-            this->button1->Text = L"AddFigs";
-            this->button1->UseVisualStyleBackColor = true;
-            this->button1->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
+            this->Button_AddFigs->Location = System::Drawing::Point(12, 12);
+            this->Button_AddFigs->Name = L"Button_AddFigs";
+            this->Button_AddFigs->Size = System::Drawing::Size(78, 31);
+            this->Button_AddFigs->TabIndex = 1;
+            this->Button_AddFigs->Text = L"AddFigs";
+            this->Button_AddFigs->UseVisualStyleBackColor = true;
+            this->Button_AddFigs->Click += gcnew System::EventHandler(this, &Form1::Button_AddFigs_Click);
             // 
             // listBox1
             // 
@@ -91,24 +95,24 @@ namespace Render {
             this->openFileDialog1->Multiselect = true;
             this->openFileDialog1->RestoreDirectory = true;
             // 
-            // button2
+            // Button_DelSelFig
             // 
-            this->button2->Location = System::Drawing::Point(12, 50);
-            this->button2->Name = L"button2";
-            this->button2->Size = System::Drawing::Size(78, 33);
-            this->button2->TabIndex = 3;
-            this->button2->Text = L"DelSelFig";
-            this->button2->UseVisualStyleBackColor = true;
-            this->button2->Click += gcnew System::EventHandler(this, &Form1::button2_Click);
+            this->Button_DelSelFig->Location = System::Drawing::Point(12, 50);
+            this->Button_DelSelFig->Name = L"Button_DelSelFig";
+            this->Button_DelSelFig->Size = System::Drawing::Size(78, 33);
+            this->Button_DelSelFig->TabIndex = 3;
+            this->Button_DelSelFig->Text = L"DelSelFig";
+            this->Button_DelSelFig->UseVisualStyleBackColor = true;
+            this->Button_DelSelFig->Click += gcnew System::EventHandler(this, &Form1::Button_DelSelFig_Click);
             // 
             // Form1
             // 
             this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
             this->ClientSize = System::Drawing::Size(482, 405);
-            this->Controls->Add(this->button2);
+            this->Controls->Add(this->Button_DelSelFig);
             this->Controls->Add(this->listBox1);
-            this->Controls->Add(this->button1);
+            this->Controls->Add(this->Button_AddFigs);
             this->Controls->Add(this->pictureBox1);
             this->Name = L"Form1";
             this->Text = L"Render";
@@ -119,34 +123,21 @@ namespace Render {
 
         }
 #pragma endregion
-        /*
-        bool isLineDot(int x, int y, int x1, int y1, int x2, int y2)
+        
+        static System::String^ StdToSys(std::string StdStr)
         {
-            if(x<x1 || x>x2 || y<y1 || y>y2)
-                return false;
-            double line_ = ((double)y1 - (double)y2)*(double)x + ((double)x2 - (double)x1)*(double)y+ ((double)x1 * (double)y2 - (double)x2 * (double)y1);
-            if(line_ < 2 && line_>-2 )
-                return true;
-            return false;
-        };
-        */
-        static System::String^ StdToSys(std::string StdStr){
             return gcnew System::String(StdStr.c_str());
         }
-        static const std::string SysToStd(System::String^ SysStr){
+
+        static const std::string SysToStd(System::String^ SysStr)
+        {
             using namespace Runtime::InteropServices;
             char *v = (char*) (Marshal::StringToHGlobalAnsi(SysStr)).ToPointer() ;
             std::string result = std::string(v);
             Marshal::FreeHGlobal(System::IntPtr((void*)v));
             return result;
         }
-        /*wchar_t *convertCharArrayToLPCWSTR(const char* charArray)
-        {
-            wchar_t* wString=new wchar_t[4096];
-            MultiByteToWideChar(CP_ACP, 0, charArray, -1, wString, 4096);
-            return wString;
-        }*/
-        
+               
         void RepaintScene()
         {
             scene.CalcScene(); 
@@ -156,9 +147,9 @@ namespace Render {
                 listBox1->Items->Add( StdToSys( it->m_shape_name.c_str() ));
             }
 
-            for(int idx_y=0; idx_y < scene.m_height; idx_y++)
+            for(int idx_y=0; idx_y < scene.Height(); idx_y++)
             {
-                for(int idx_x=0; idx_x < scene.m_width; idx_x++)
+                for(int idx_x=0; idx_x < scene.Width(); idx_x++)
                 {
                     MyImage->SetPixel( idx_x, idx_y, Color::FromArgb( scene.m_scene[idx_x][idx_y].R, scene.m_scene[idx_x][idx_y].G, scene.m_scene[idx_x][idx_y].B ) );
 
@@ -170,23 +161,22 @@ namespace Render {
             scene.OutIntersected();
         }
         
-    private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-                
-                if ( openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK )
-                {
-                    for each ( String^ file in openFileDialog1->SafeFileNames ) 
-                    {
-                       
-                        String^ strfilename =  System::IO::Path::GetDirectoryName( openFileDialog1->FileName ) +"\\"+ file;
-                        std::string name_dll = SysToStd( strfilename );
-                        scene.LoadMyShape( name_dll );
-                    }
-                }
-                
-                RepaintScene();
-    }
+private: System::Void Button_AddFigs_Click(System::Object^  sender, System::EventArgs^  e) 
+         {
+             if ( openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK )
+             {
+                 for each ( String^ file in openFileDialog1->SafeFileNames ) 
+                 {
+                     String^ strfilename =  System::IO::Path::GetDirectoryName( openFileDialog1->FileName ) +"\\"+ file;
+                     std::string name_dll = SysToStd( strfilename );
+                     scene.LoadMyShape( name_dll );
+                 }
+             }
+             RepaintScene();
+         }
 
-private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void Button_DelSelFig_Click(System::Object^  sender, System::EventArgs^  e) 
+         {
              std::vector< Geometr::MyShape > new_shapes_vector;
              int idx = 0;
              for( auto it = scene.m_shapes.begin(); it < scene.m_shapes.end(); ++it )
@@ -204,7 +194,8 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
              RepaintScene();
          }
 
-private: System::Void Form1_ResizeEnd(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void Form1_ResizeEnd(System::Object^  sender, System::EventArgs^  e) 
+         {
              if((this->Height - 150)>(this->Width - 200))
              {
                  pictureBox1->Width = this->Width - 200;
@@ -223,7 +214,8 @@ private: System::Void Form1_ResizeEnd(System::Object^  sender, System::EventArgs
          }
 
 
-private: System::Void Form1_Resize(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void Form1_Resize(System::Object^  sender, System::EventArgs^  e) 
+         {
              if((this->Height - 150)>(this->Width - 200))
              {
                  pictureBox1->Width = this->Width - 200;
@@ -236,8 +228,8 @@ private: System::Void Form1_Resize(System::Object^  sender, System::EventArgs^  
              }
              else
              {
-                pictureBox1->Height = this->Height - 150;
-                pictureBox1->Width = this->Width - 200;
+                 pictureBox1->Height = this->Height - 150;
+                 pictureBox1->Width = this->Width - 200;
              }
          }
 };

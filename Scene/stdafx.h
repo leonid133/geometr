@@ -11,14 +11,12 @@
 // Windows Header Files:
 #include <windows.h>
 
-
-
 // TODO: reference additional headers your program requires here
 #include <string>
-#include "geometr.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <set>
 #include <map>
 #include <iterator>
+#include <vector>

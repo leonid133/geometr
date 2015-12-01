@@ -4,7 +4,7 @@
 #include "stdafx.h"
 
 #ifdef GEOMETR_EXPORTS
-#define GEOMETR_API __declspec(dllexport) 
+#define GEOMETR_API  __declspec(dllexport) 
 #else
 #define GEOMETR_API //__declspec(dllimport) 
 #endif
@@ -28,53 +28,49 @@ namespace Geometr
 
     protected:
         
-    
-        bool pt_in_polygon(const CoordXY &test, const std::vector<CoordXY> &polygon)
+        bool pt_in_polygon( const CoordXY &test, const std::vector<CoordXY> &polygon )
         {
-            if (polygon.size()<3) return false;
+            if ( polygon.size() < 3 ) return false;
 
-            auto end=polygon.end();
+            auto end = polygon.end();
 
             CoordXY last_pt=polygon.back();
 
-            last_pt.X-=test.X;
-            last_pt.Y-=test.Y;
+            last_pt.X -= test.X;
+            last_pt.Y -= test.Y;
 
-            double sum=0.0;
+            double sum = 0.0;
 
-            for(
-                auto iter=polygon.begin();
-                iter!=end;
-            ++iter
-                )
+            for( auto it = polygon.begin(); it != end; ++it )
             {
-                auto cur_pt=*iter;
-                cur_pt.X-=test.X;
-                cur_pt.Y-=test.Y;
+                auto cur_pt = *it;
+                cur_pt.X -= test.X;
+                cur_pt.Y -= test.Y;
 
-                double del= last_pt.X*cur_pt.Y-cur_pt.X*last_pt.Y;
-                double xy= cur_pt.X*last_pt.X+cur_pt.Y*last_pt.Y;
+                double del = last_pt.X * cur_pt.Y - cur_pt.X * last_pt.Y;
+                double xy = cur_pt.X * last_pt.X + cur_pt.Y * last_pt.Y;
 
-                sum+=
+                sum +=
                     (
-                    atan((last_pt.X*last_pt.X+last_pt.Y*last_pt.Y - xy)/del)+
-                    atan((cur_pt.X*cur_pt.X+cur_pt.Y*cur_pt.Y- xy )/del)
+                    atan( ( last_pt.X * last_pt.X + last_pt.Y * last_pt.Y - xy ) / del ) +
+                    atan( ( cur_pt.X * cur_pt.X + cur_pt.Y * cur_pt.Y - xy ) / del )
                     );
-                last_pt=cur_pt;
+                last_pt = cur_pt;
             }
-            return fabs(sum)>1;
+            return fabs( sum ) > 1;
         }
 
-        bool isLine(const int &x, const int &y, const int &x1, const int &y1, const int &x2, const int &y2)
+        bool isLine( const int &x, const int &y, const int &x1, const int &y1, const int &x2, const int &y2 )
         {
             if( !( ( x1 < x && x < x2 ) || (x2 < x && x < x1 ) || ( y1 < y && y < y2 ) || (y2 < y && y < y1 ) ) )
                 return false;
-            int line_ = (y1 - y2)*x + (x2 - x1)*y+ (x1 * y2 - x2 * y1);
-            if(line_ < 1 && line_>-1 )
+            int line_ = ( y1 - y2 )*x + ( x2 - x1 ) * y + ( x1 * y2 - x2 * y1 );
+            if( line_ < 1 && line_ > -1 )
                 return true;
             return false;
         };
-int m_line_shaper;
+
+        int m_line_shaper;
         
 public:
 

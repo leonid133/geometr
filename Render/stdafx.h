@@ -4,8 +4,7 @@
 #pragma once
 
 // TODO: reference additional headers your program requires here
-#include "geometr.h"
-#include "scene.h"
+
 #include <set>
 #include <map>
 #include <iterator>
