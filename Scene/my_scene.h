@@ -101,7 +101,7 @@ namespace Scene
 
                     for( auto it = m_shapes.begin(); it < m_shapes.end(); ++it )
                     {
-                        if( it->IsDotPoligon(idx_x, idx_y) )
+                        if( it->PointInPoligon(idx_x, idx_y) )
                         {
                             if(label>0)
                             {

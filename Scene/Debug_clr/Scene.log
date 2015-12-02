@@ -1,7 +1,7 @@
-﻿Build started 02.12.2015 14:15:38.
+﻿Build started 02.12.2015 14:55:48.
      1>Project "F:\1\geometr\Scene\Scene.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "Debug_clr\Scene.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "Debug_clr\Scene.unsuccessfulbuild".
        GenerateTargetFrameworkMonikerAttribute:
        Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
        ClCompile:
@@ -24,4 +24,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.80
+Time Elapsed 00:00:01.63

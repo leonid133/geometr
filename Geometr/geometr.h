@@ -14,6 +14,7 @@ namespace Geometr
     class GEOMETR_API MyShape
     {
     public:
+
         struct CoordXY
         {
             int X;
@@ -27,6 +28,10 @@ namespace Geometr
         };
 
     protected:
+
+        int m_count_vertex;
+
+    private:
         
         bool pt_in_polygon( const CoordXY &test, const std::vector<CoordXY> &polygon )
         {
@@ -60,29 +65,17 @@ namespace Geometr
             return fabs( sum ) > 1;
         }
 
-        bool isLine( const int &x, const int &y, const int &x1, const int &y1, const int &x2, const int &y2 )
-        {
-            if( !( ( x1 < x && x < x2 ) || (x2 < x && x < x1 ) || ( y1 < y && y < y2 ) || (y2 < y && y < y1 ) ) )
-                return false;
-            int line_ = ( y1 - y2 )*x + ( x2 - x1 ) * y + ( x1 * y2 - x2 * y1 );
-            if( line_ < 1 && line_ > -1 )
-                return true;
-            return false;
-        };
-
         int m_line_shaper;
-        
-        int m_count_vertex;
+
 public:
 
+        std::string m_shape_name;
 
-    std::string m_shape_name;
+        ColorRGB m_color_lines;
+        ColorRGB m_def_color;
+        ColorRGB m_color_brush;
 
-    ColorRGB m_color_lines;
-    ColorRGB m_def_color;
-    ColorRGB m_color_brush;
-
-    CoordXY * pV;
+        CoordXY * pV;
 
         enum ShapeLine
         {
@@ -110,7 +103,7 @@ public:
             }
             else if(m_shape_line == dotted_bar)
             {
-               if( m_line_shaper>6 || m_line_shaper<0 )
+                if( m_line_shaper>6 || m_line_shaper<0 )
                     m_line_shaper=0;
                 m_line_shaper++;
                 if(m_line_shaper == 1)
@@ -170,8 +163,6 @@ public:
             }
             return *this;
         }
-
-        virtual void SetName( const std::string &name  ){m_shape_name=name;};
 
         
         virtual std::stringstream ToString( bool unsort, bool ascending)
@@ -242,18 +233,6 @@ public:
             m_color_brush.B = B;
             return true;
         }
-
-        virtual bool IsDotLine(const int &x, const int &y)
-        {
-            for( int idx = 1; idx < m_count_vertex; ++idx )
-            {
-                if( isLine( x, y, pV[idx-1].X, pV[idx-1].Y, pV[idx].X, pV[idx].Y ) )
-                    return true;
-            }
-            if( isLine( x, y, pV[0].X, pV[0].Y, pV[m_count_vertex-1].X, pV[m_count_vertex-1].Y ) )
-                return true;
-            return false;
-        };
 
         virtual std::vector<CoordXY> GetLineCoord(int x_max, int y_max)
         {
@@ -327,7 +306,7 @@ public:
             return y_out;
         }
 
-        virtual bool IsDotPoligon(const int &x, const int &y)
+        virtual bool PointInPoligon(const int &x, const int &y)
         {
             CoordXY test_p;
             test_p.X = x;
