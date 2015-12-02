@@ -1,0 +1,27 @@
+﻿Build started 02.12.2015 14:15:38.
+     1>Project "F:\1\geometr\Scene\Scene.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug_clr\Scene.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\geometr\geometr /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W1 /WX- /O2 /Oy- /D _WINDLL /D _UNICODE /D UNICODE /EHa /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug_clr\\" /Fd"Debug_clr\vc100.pdb" /TP /analyze- /errorReport:prompt my_scene.cpp /clr:nostdlib 
+         my_scene.cpp
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\1\geometr\Debug_clr\Scene.dll" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug_clr\Scene.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"F:\1\geometr\Debug_clr\Scene.pdb" /TLBID:1 /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 /DLL Debug_clr\dllmain.obj
+         Debug_clr\my_scene.obj
+         Debug_clr\Scene.obj
+         Debug_clr\stdafx.obj
+         "Debug_clr\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
+         Scene.vcxproj -> F:\1\geometr\Debug_clr\Scene.dll
+       Manifest:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"F:\1\geometr\Debug_clr\Scene.dll;#2" /manifest Debug_clr\Scene.dll.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug_clr\Scene.unsuccessfulbuild".
+         Touching "Debug_clr\Scene.lastbuildstate".
+     1>Done Building Project "F:\1\geometr\Scene\Scene.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.80

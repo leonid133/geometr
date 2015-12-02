@@ -9,7 +9,7 @@ namespace Render {
     using namespace System::Windows::Forms;
     using namespace System::Data;
     using namespace System::Drawing;
-
+    
     Scene::MyScene scene(X_MAX, Y_MAX);
    
     public ref class Form1 : public System::Windows::Forms::Form
@@ -22,6 +22,7 @@ namespace Render {
             this->pictureBox1->SizeMode = PictureBoxSizeMode::StretchImage;
             //Bitmap
             this->MyImage = gcnew Bitmap(scene.Width(), scene.Height() );
+            
         }
 
     protected:
@@ -140,13 +141,12 @@ namespace Render {
                
         void RepaintScene()
         {
-            scene.CalcScene(); 
             listBox1->Items->Clear();  
             for( auto it = scene.m_shapes.begin(); it < scene.m_shapes.end(); ++it )
             {
                 listBox1->Items->Add( StdToSys( it->m_shape_name.c_str() ));
             }
-
+            scene.Refresh();
             for(int idx_y=0; idx_y < scene.Height(); idx_y++)
             {
                 for(int idx_x=0; idx_x < scene.Width(); idx_x++)
@@ -157,8 +157,6 @@ namespace Render {
             }
             pictureBox1->Image = MyImage;
             pictureBox1->Refresh();
-            scene.OutLoadedSort();
-            scene.OutIntersected();
         }
         
 private: System::Void Button_AddFigs_Click(System::Object^  sender, System::EventArgs^  e) 

@@ -72,12 +72,16 @@ namespace Geometr
 
         int m_line_shaper;
         
+        int m_count_vertex;
 public:
+
+
+    std::string m_shape_name;
 
     ColorRGB m_color_lines;
     ColorRGB m_def_color;
     ColorRGB m_color_brush;
-    
+
     CoordXY * pV;
 
         enum ShapeLine
@@ -88,6 +92,7 @@ public:
         };
 
         ShapeLine m_shape_line;
+
         ColorRGB GetColorLine()
         {
             if(m_shape_line == solid)
@@ -113,8 +118,6 @@ public:
                 else return m_def_color;
             }
         }
-
-        std::string m_shape_name;
         
         MyShape( )
         {
@@ -127,6 +130,7 @@ public:
             m_shape_line = shap_def;
             m_line_shaper = 0;
         };
+
         MyShape( const MyShape& right )
         {
             m_shape_name = right.m_shape_name;
@@ -143,6 +147,7 @@ public:
                 pV[idx].Y = right.pV[idx].Y;
             }
         }
+
         MyShape& operator=(const MyShape& right) 
         {
             if (this == &right) {
@@ -167,7 +172,7 @@ public:
         }
 
         virtual void SetName( const std::string &name  ){m_shape_name=name;};
-        virtual void V_count() {};
+
         
         virtual std::stringstream ToString( bool unsort, bool ascending)
         {
@@ -238,8 +243,6 @@ public:
             return true;
         }
 
-        int m_count_vertex;
-        
         virtual bool IsDotLine(const int &x, const int &y)
         {
             for( int idx = 1; idx < m_count_vertex; ++idx )
@@ -252,7 +255,7 @@ public:
             return false;
         };
 
-        virtual std::vector<CoordXY> F(int x_max, int y_max)
+        virtual std::vector<CoordXY> GetLineCoord(int x_max, int y_max)
         {
             std::vector<CoordXY> y_out;
             CoordXY xy;
@@ -342,13 +345,10 @@ public:
 
     class GEOMETR_API Triangle: public MyShape
     {
-    private:
-        virtual void V_count(){m_count_vertex = 3;};
-
     public:
         Triangle()
         {
-            V_count();
+            m_count_vertex = 3;
             pV = new CoordXY[m_count_vertex];
             for( int idx = 0; idx < m_count_vertex; ++idx )
             {
@@ -365,13 +365,11 @@ public:
 
     class GEOMETR_API Rectangle: public MyShape 
     {
-    private:
-         virtual void V_count(){m_count_vertex = 4;};
-         
     public:
+
         Rectangle()
         {
-            V_count();
+            m_count_vertex = 4;
             pV = new CoordXY[m_count_vertex];
             for( int idx = 0; idx < m_count_vertex; ++idx )
             {
@@ -379,6 +377,7 @@ public:
                 pV[idx].Y = 0;
             }
         };
+
         virtual bool SetCoord( std::vector<std::pair<int, int> > coord_x_y  /*задается тремя точками, третья точка указывает на параллельную отрезку из первых точек прямую*/)
         {
             if( coord_x_y.size() != 3)
@@ -435,6 +434,7 @@ public:
 
             return true;
         };
+
         ~Rectangle()
         {
             if( pV )
@@ -444,12 +444,11 @@ public:
 
     class GEOMETR_API Square: public MyShape
     {
-    private:
-        virtual void V_count(){m_count_vertex = 4;};
     public:
+
         Square()
         {
-            V_count();
+            m_count_vertex = 4;
             pV = new CoordXY[m_count_vertex];
             for( int idx = 0; idx < m_count_vertex; ++idx )
             {
@@ -457,6 +456,7 @@ public:
                 pV[idx].Y = 0;
             }
         };
+
         virtual bool SetCoord( std::vector<std::pair<int, int> > coord_x_y /*задается двумя диаганальными точками*/ )
         {
             if( coord_x_y.size() != 2)
@@ -508,10 +508,8 @@ public:
         
     class GEOMETR_API Polygon: public MyShape
     {
-    private:
-        virtual void V_count(){};
-        
     public:
+
         Polygon()
         {
             m_count_vertex = 3;
@@ -522,6 +520,7 @@ public:
                 pV[idx].Y = 0;
             }
         };
+
         Polygon(int n)
         {
             m_count_vertex = n;

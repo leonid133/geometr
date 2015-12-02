@@ -1,0 +1,37 @@
+﻿Build started 02.12.2015 14:15:34.
+     1>Project "F:\1\geometr\Geometr\Geometr.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug_clr\Geometr.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       ClCompile:
+         All outputs are up-to-date.
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D GEOMETR_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug_clr\Geometr.pch" /Fo"Debug_clr\\" /Fd"Debug_clr\vc100.pdb" /TP /analyze- /errorReport:prompt Geometr.cpp /clr:nostdlib 
+         Geometr.cpp
+     1>f:\1\geometr\geometr\geometr.h(79): warning C4251: 'Geometr::MyShape::m_shape_name' : class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'Geometr::MyShape'
+                 with
+                 [
+                     _Elem=char,
+                     _Traits=std::char_traits<char>,
+                     _Ax=std::allocator<char>
+                 ]
+     1>f:\1\geometr\geometr\geometr.h(120): warning C4715: 'Geometr::MyShape::GetColorLine' : not all control paths return a value
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\1\geometr\Debug_clr\Geometr.dll" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug_clr\Geometr.dll.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"F:\1\geometr\Debug_clr\Geometr.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 /DLL Debug_clr\dllmain.obj
+         Debug_clr\Geometr.obj
+         Debug_clr\stdafx.obj
+         "Debug_clr\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
+            Creating library F:\1\geometr\Debug_clr\Geometr.lib and object F:\1\geometr\Debug_clr\Geometr.exp
+         Geometr.vcxproj -> F:\1\geometr\Debug_clr\Geometr.dll
+       Manifest:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"F:\1\geometr\Debug_clr\Geometr.dll;#2" /manifest Debug_clr\Geometr.dll.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug_clr\Geometr.unsuccessfulbuild".
+         Touching "Debug_clr\Geometr.lastbuildstate".
+     1>Done Building Project "F:\1\geometr\Geometr\Geometr.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.20

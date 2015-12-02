@@ -1,0 +1,33 @@
+﻿Build started 02.12.2015 14:15:41.
+     1>Project "F:\1\geometr\Render\Render.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug_clr\Render.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       ClCompile:
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\geometr\Figs\ /I..\..\geometr\Scene\ /I..\geometr\ /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug_clr\Render.pch" /Fo"Debug_clr\\" /Fd"Debug_clr\vc100.pdb" /TP /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt Render.cpp /clr:nostdlib 
+         Render.cpp
+     1>f:\1\geometr\geometr\geometr.h(120): warning C4715: 'Geometr::MyShape::GetColorLine' : not all control paths return a value
+         All outputs are up-to-date.
+       CoreResGen:
+         All outputs are up-to-date.
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\1\geometr\Debug_clr\Render.exe" /INCREMENTAL:NO /NOLOGO /ASSEMBLYRESOURCE:Debug_clr\Render.Form1.resources /MANIFEST /ManifestFile:"Debug_clr\Render.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"F:\1\geometr\Debug_clr\Render.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Debug_clr\app.res
+         Debug_clr\AssemblyInfo.obj
+         Debug_clr\Render.obj
+         Debug_clr\stdafx.obj
+         "Debug_clr\.NETFramework,Version=v4.0.AssemblyAttributes.obj" /FORCE:MULTIPLE 
+         Render.vcxproj -> F:\1\geometr\Debug_clr\Render.exe
+       Manifest:
+         c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"F:\1\geometr\Debug_clr\Render.exe;#1" /manifest Debug_clr\Render.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug_clr\Render.unsuccessfulbuild".
+         Touching "Debug_clr\Render.lastbuildstate".
+     1>Done Building Project "F:\1\geometr\Render\Render.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.57

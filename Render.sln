@@ -5,10 +5,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Render", "Render\Render.vcx
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_clr|Win32 = Debug_clr|Win32
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2FFDA130-71BC-4800-85D9-D6348E51D6D2}.Debug_clr|Win32.ActiveCfg = Debug_clr|Win32
+		{2FFDA130-71BC-4800-85D9-D6348E51D6D2}.Debug_clr|Win32.Build.0 = Debug_clr|Win32
 		{2FFDA130-71BC-4800-85D9-D6348E51D6D2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2FFDA130-71BC-4800-85D9-D6348E51D6D2}.Debug|Win32.Build.0 = Debug|Win32
 		{2FFDA130-71BC-4800-85D9-D6348E51D6D2}.Release|Win32.ActiveCfg = Release|Win32

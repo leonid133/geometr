@@ -5,10 +5,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scene", "Scene\Scene.vcxpro
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_clr|Win32 = Debug_clr|Win32
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12E2AF30-EA25-42FC-8480-E8B4D798C977}.Debug_clr|Win32.ActiveCfg = Debug_clr|Win32
+		{12E2AF30-EA25-42FC-8480-E8B4D798C977}.Debug_clr|Win32.Build.0 = Debug_clr|Win32
 		{12E2AF30-EA25-42FC-8480-E8B4D798C977}.Debug|Win32.ActiveCfg = Debug|Win32
 		{12E2AF30-EA25-42FC-8480-E8B4D798C977}.Debug|Win32.Build.0 = Debug|Win32
 		{12E2AF30-EA25-42FC-8480-E8B4D798C977}.Release|Win32.ActiveCfg = Release|Win32
