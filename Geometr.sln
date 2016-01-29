@@ -5,10 +5,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Geometr", "Geometr\Geometr.
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_clr|Win32 = Debug_clr|Win32
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21D23F09-5255-4C80-BE23-13871BBB8FE2}.Debug_clr|Win32.ActiveCfg = Debug_clr|Win32
+		{21D23F09-5255-4C80-BE23-13871BBB8FE2}.Debug_clr|Win32.Build.0 = Debug_clr|Win32
 		{21D23F09-5255-4C80-BE23-13871BBB8FE2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{21D23F09-5255-4C80-BE23-13871BBB8FE2}.Debug|Win32.Build.0 = Debug|Win32
 		{21D23F09-5255-4C80-BE23-13871BBB8FE2}.Release|Win32.ActiveCfg = Release|Win32

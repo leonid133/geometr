@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+//#pragma comment(lib, "user32.lib")
+
 using namespace System;
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;

@@ -1,6 +1,8 @@
 // Render.cpp : main project file.
 
 #include "stdafx.h"
+#include "geometr.h"
+#include "my_scene.h"
 #include "Form1.h"
 
 using namespace Render;

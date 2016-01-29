@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fig_triangle2", "fig_triangle2\fig_triangle2.vcxproj", "{2F6E2BCF-4129-47E9-9855-1D6701E494B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F6E2BCF-4129-47E9-9855-1D6701E494B4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2F6E2BCF-4129-47E9-9855-1D6701E494B4}.Debug|Win32.Build.0 = Debug|Win32
+		{2F6E2BCF-4129-47E9-9855-1D6701E494B4}.Release|Win32.ActiveCfg = Release|Win32
+		{2F6E2BCF-4129-47E9-9855-1D6701E494B4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
